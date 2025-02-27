@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\VendorProfileController;
+use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserProfileController;
@@ -22,11 +23,26 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('admin/dashboard' , [AdminController::class, 'dashboard'])->middleware('auth', 'role:admin')->name('admin.dashboard');
+// Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
+//     Route::get('admin/dashboard' , [AdminController::class, 'dashboard'])->middleware('auth', 'role:admin')->name('admin.dashboard');
 
-Route::get('admin/profile' , [ProfileController::class, 'index'])->middleware('auth', 'role:admin')->name('admin.profile');
-Route::post('admin/profile/update' , [ProfileController::class, 'profileUpdate'])->middleware('auth', 'role:admin')->name('admin.profile.update');
-Route::post('admin/password/update' , [ProfileController::class, 'passwordUpdate'])->middleware('auth', 'role:admin')->name('admin.password.update');
+//     Route::get('admin/profile' , [ProfileController::class, 'index'])->middleware('auth', 'role:admin')->name('admin.profile');
+//     Route::post('admin/profile/update' , [ProfileController::class, 'profileUpdate'])->middleware('auth', 'role:admin')->name('admin.profile.update');
+//     Route::post('admin/password/update' , [ProfileController::class, 'passwordUpdate'])->middleware('auth', 'role:admin')->name('admin.password.update');
+// });
+
+/**Admin Routes */
+
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
+    Route::get('dashboard' , [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('profile' , [ProfileController::class, 'index'])->name('profile');
+    Route::post('profile/update' , [ProfileController::class, 'profileUpdate'])->name('profile.update');
+    Route::post('password/update' , [ProfileController::class, 'passwordUpdate'])->name('password.update');
+    //slider routes
+    Route::resource('slider', SliderController::class);
+});
+
+/**Admin Routes */
 
 
 // Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user' , 'as'=>'.user'], function(){
