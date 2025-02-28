@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Backend;
 use App\DataTables\SliderDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SliderRequest;
+use App\Http\Requests\SliderUpdateRequest;
 use App\Interfaces\SliderRepositoryInterface;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
-
+use App\Models\Slider;
 
 class SliderController extends Controller
 {
@@ -66,15 +67,25 @@ class SliderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $slider = Slider::findOrFail($id);
+        return view('admin.slider.edit' , compact('slider'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SliderUpdateRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+        $path = $this->updateImage($request, 'banner', 'uploads/slider');
+        if($path){
+            $data = array_merge($data, ['banner' => $path]);
+        }
+
+        app(SliderRepositoryInterface::class)->update($data , $id);
+
+        toastr()->success('Slider Updated Successfully!');
+        return redirect()->route('admin.slider.index');
     }
 
     /**
@@ -82,6 +93,9 @@ class SliderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $imagePath = app(SliderRepositoryInterface::class)->getById($id)->banner;
+        $this->deleteImage($imagePath);
+        app(SliderRepositoryInterface::class)->delete($id);
+        return response(['status' =>'success' , 'message' =>"Slider deleted successfully"]);
     }
 }
