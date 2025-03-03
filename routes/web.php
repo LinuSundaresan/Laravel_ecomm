@@ -2,6 +2,7 @@
 
 // use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\VendorProfileController;
@@ -40,6 +41,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::post('password/update' , [ProfileController::class, 'passwordUpdate'])->name('password.update');
     //slider routes
     Route::resource('slider', SliderController::class);
+    Route::resource('category', CategoryController::class);
 });
 
 /**Admin Routes */
