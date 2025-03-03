@@ -8,10 +8,10 @@
                             <div class="col-xl-12">
                                 <div class="wsus__single_slider" style="background: url({{ $slider->banner }});">
                                     <div class="wsus__single_slider_text">
-                                        <h3>new arrivals</h3>
-                                        <h1>men's fashion</h1>
-                                        <h6>start at $99.00</h6>
-                                        <a class="common_btn" href="#">shop now</a>
+                                        <h3>{{ $slider->type;}}</h3>
+                                        <h1>{{ $slider->title;}}</h1>
+                                        <h6>start at ${{ $slider->starting_price;}}</h6>
+                                        <a class="common_btn" href="{{ $slider->btn_url;}}">shop now</a>
                                     </div>
                                 </div>
                             </div>
