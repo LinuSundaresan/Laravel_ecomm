@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\VendorProfileController;
 use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserProfileController;
@@ -39,9 +40,17 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::get('profile' , [ProfileController::class, 'index'])->name('profile');
     Route::post('profile/update' , [ProfileController::class, 'profileUpdate'])->name('profile.update');
     Route::post('password/update' , [ProfileController::class, 'passwordUpdate'])->name('password.update');
+
     //slider routes
     Route::resource('slider', SliderController::class);
+
+    //category routes
+    Route::put('category/update-status', [CategoryController::class, 'updateStatus'])->name('category.update-status');
     Route::resource('category', CategoryController::class);
+
+    //subcategory routes
+    Route::put('sub-category/update-status', [SubCategoryController::class, 'updateStatus'])->name('sub-category.update-status');
+    Route::resource('sub-category', SubCategoryController::class);
 });
 
 /**Admin Routes */

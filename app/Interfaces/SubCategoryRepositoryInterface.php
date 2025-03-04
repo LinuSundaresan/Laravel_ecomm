@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface CategoryRepositoryInterface
+interface SubCategoryRepositoryInterface
 {
     public function create(array $data);
     public function getById($id);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\DataTables\CategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryStatusUpdateRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
@@ -78,4 +79,18 @@ class CategoryController extends Controller
         app(CategoryRepositoryInterface::class)->delete($id);
         return response(['status' =>'success' , 'message' =>"Category deleted successfully"]);
     }
+
+    /**
+     * Update status of categories.
+     */
+
+    public function updateStatus(CategoryStatusUpdateRequest $request)
+    {
+        $request->status=='false' ? $status = 0 : $status = 1;
+
+        $data = ['status'=> $status];
+        app(CategoryRepositoryInterface::class)->updateStatus($data ,$request->id);
+        return response(['status' =>'success' , 'message' =>"Status updated successfully"]);
+    }
+
 }

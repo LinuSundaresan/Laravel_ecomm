@@ -29,4 +29,14 @@ class CategoryRepository implements CategoryRepositoryInterface
         Category::findOrFail($id)->delete();
     }
 
+    public function updateStatus( $data, $id )
+    {
+        Category::find($id)->update( $data );
+    }
+
+    public function getAll()
+    {
+        return Category::all();
+    }
+
 }
