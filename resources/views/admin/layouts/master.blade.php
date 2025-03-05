@@ -133,18 +133,19 @@
                         'type': 'DELETE',
                         'url' : deleteUrl,
                         'success' : function (data) {
-                            if(data.status="success") {
+                            if (data.status === "success") {
                                 Swal.fire({
                                     title: "Deleted!",
-                                    text: "Your file has been deleted.",
+                                    text: data.message,
                                     icon: "success"
+                                }).then(() => {
+                                    window.location.reload(); // Reload after successful deletion
                                 });
-                                window.location.reload();
-                            } else if(data.status="error") {
+                            } else if (data.status === "error") {
                                 Swal.fire({
-                                    title: "Cant Delete!",
-                                    text: "file has been deleted.",
-                                    icon: "success"
+                                    title: "Can't Delete!",
+                                    text: data.message,
+                                    icon: "error"
                                 });
                             }
                         },

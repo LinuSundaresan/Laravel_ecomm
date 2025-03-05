@@ -3,6 +3,7 @@
 // use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\VendorProfileController;
@@ -51,6 +52,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     //subcategory routes
     Route::put('sub-category/update-status', [SubCategoryController::class, 'updateStatus'])->name('sub-category.update-status');
     Route::resource('sub-category', SubCategoryController::class);
+
+    //childcategory routes
+    Route::put('child-category/update-status', [ChildCategoryController::class, 'updateStatus'])->name('child-category.update-status');
+    Route::get('get-subcategories', [ChildCategoryController::class, 'getSubCategories'])->name('get-subcategories');
+    Route::resource('child-category', ChildCategoryController::class);
 });
 
 /**Admin Routes */

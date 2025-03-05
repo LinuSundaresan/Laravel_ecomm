@@ -39,4 +39,14 @@ class SubCategoryRepository implements SubCategoryRepositoryInterface
         return SubCategory::all();
     }
 
+    public function getSubCategoryByCategoryId($id)
+    {
+        return SubCategory::where('category_id', $id)->where('status', 1)->get();
+    }
+
+    public function getSubCategoryCountByCategoryId($id)
+    {
+        return SubCategory::where('category_id', $id)->where('status', 1)->count();
+    }
+
 }

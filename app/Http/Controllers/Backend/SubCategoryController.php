@@ -8,6 +8,7 @@ use App\Http\Requests\SubCategoryRequest;
 use App\Http\Requests\SubCategoryStatusUpdateRequest;
 use App\Http\Requests\SubCategoryUpdateRequest;
 use App\Interfaces\CategoryRepositoryInterface;
+use App\Interfaces\ChildCategoryRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
 use Illuminate\Http\Request;
 use Str;
@@ -83,6 +84,13 @@ class SubCategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        $childCategoriesCount = app(ChildCategoryRepositoryInterface::class)->getChildCategoryCountBySubCategoryId($id);
+
+        if($childCategoriesCount > 0)
+        {
+            return response(['status' =>'error' , 'message' =>"This SubCategory contains child categories. Inorder to delete this sub category you have to delete all child categories first"]);
+        }
+
         app(SubCategoryRepositoryInterface::class)->delete($id);
         return response(['status' =>'success' , 'message' =>"Sub Category deleted successfully"]);
     }
