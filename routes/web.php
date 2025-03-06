@@ -2,6 +2,7 @@
 
 // use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProfileController;
@@ -26,14 +27,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
-//     Route::get('admin/dashboard' , [AdminController::class, 'dashboard'])->middleware('auth', 'role:admin')->name('admin.dashboard');
-
-//     Route::get('admin/profile' , [ProfileController::class, 'index'])->middleware('auth', 'role:admin')->name('admin.profile');
-//     Route::post('admin/profile/update' , [ProfileController::class, 'profileUpdate'])->middleware('auth', 'role:admin')->name('admin.profile.update');
-//     Route::post('admin/password/update' , [ProfileController::class, 'passwordUpdate'])->middleware('auth', 'role:admin')->name('admin.password.update');
-// });
-
 /**Admin Routes */
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
@@ -57,6 +50,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::put('child-category/update-status', [ChildCategoryController::class, 'updateStatus'])->name('child-category.update-status');
     Route::get('get-subcategories', [ChildCategoryController::class, 'getSubCategories'])->name('get-subcategories');
     Route::resource('child-category', ChildCategoryController::class);
+
+    //brand routes
+    Route::put('brand/update-status', [BrandController::class, 'updateStatus'])->name('brand.update-status');
+    Route::resource('brand', BrandController::class);
 });
 
 /**Admin Routes */
