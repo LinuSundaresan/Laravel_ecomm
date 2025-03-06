@@ -1,5 +1,12 @@
 @php
-    $categories = \App\Models\Category::all();
+    $categories = \App\Models\Category::where('status', 1)
+    ->with(['subcategories' => function($query){
+        $query->where('status',1)
+        ->with(['childcategories' => function($query){
+            $query->where('status',1);
+        }]);
+    }])
+    ->get();
 @endphp
 
 
@@ -15,24 +22,26 @@
                         <li><a href="#"><i class="fas fa-star"></i> hot promotions</a></li>
 
                         @foreach ($categories as $category)
-                            <li><a class="wsus__droap_arrow" href="#"><i class="{{ $category->icon }}"></i> {{ $category->name }} </a>
-                                <ul class="wsus_menu_cat_droapdown">
-                                    
-                                    <li><a href="#">New Arrivals <i class="fas fa-angle-right"></i></a>
-                                        <ul class="wsus__sub_category">
-                                            <li><a href="#">New Arrivals</a> </li>
-                                            <li><a href="#">Best Sellers</a></li>
-                                            <li><a href="#">Trending</a></li>
-                                            <li><a href="#">Clothing</a></li>
-                                            <li><a href="#">Bags</a></li>
-                                            <li><a href="#">Home Audio & Theaters</a></li>
-                                            <li><a href="#">TV & Videos</a></li>
-                                            <li><a href="#">Camera</a></li>
-                                            <li><a href="#">Photos & Videos</a></li>
-                                        </ul>
-                                    </li>
+                            <li><a class=" {{ count($category->subcategories)> 0 ? "wsus__droap_arrow" : '' }} " href="#"><i class="{{ $category->icon }}"></i> {{ $category->name }} </a>
+                                @if(count($category->subcategories)> 0)
+                                    <ul class="wsus_menu_cat_droapdown">
+                                        @foreach($category->subcategories as $subcategory)
+                                        <li><a href="#">{{ $subcategory->name }} <i class="{{ count($subcategory->childcategories)> 0 ? "fas fa-angle-right" : '' }} "></i></a>
+                                            @if(count($subcategory->childcategories)> 0)
+                                                <ul class="wsus__sub_category">
+                                                    @foreach ($subcategory->childcategories as $childcategory)
+                                                        <li><a href="#">{{ $childcategory->name }}</a> </li>
+                                                    @endforeach
 
-                                </ul>
+                                                </ul>
+                                            @endif
+
+                                        </li>
+                                        @endforeach
+
+                                    </ul>
+                                @endif
+
                             </li>
                         @endforeach
 
@@ -173,73 +182,28 @@
                 <div class="accordion accordion-flush" id="accordionFlushExample">
                     <ul class="wsus_mobile_menu_category">
                         <li><a href="#"><i class="fas fa-star"></i> hot promotions</a></li>
-                        <li><a href="#" class="accordion-button collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseThreew" aria-expanded="false"
-                                aria-controls="flush-collapseThreew"><i class="fal fa-tshirt"></i> fashion</a>
-                            <div id="flush-collapseThreew" class="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <ul>
-                                        <li><a href="#">men's</a></li>
-                                        <li><a href="#">wemen's</a></li>
-                                        <li><a href="#">kid's</a></li>
-                                        <li><a href="#">others</a></li>
-                                    </ul>
+
+                        @foreach ($categories as $category)
+                            <li><a href="#" class="accordion-button collapsed" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseThreew-{{ $loop->index }}" aria-expanded="false"
+                                    aria-controls="flush-collapseThreew-{{ $loop->index }}"><i class="{{ $category->icon }}"></i> {{ $category->name }}</a>
+                                    @if(count($category->subcategories)> 0)
+                                <div id="flush-collapseThreew-{{ $loop->index }}" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            @foreach($category->subcategories as $subcategory)
+                                                <li><a href="#">{{ $subcategory->name }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li><a href="#" class="accordion-button collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseThreer" aria-expanded="false"
-                                aria-controls="flush-collapseThreer"><i class="fas fa-tv"></i> electronics</a>
-                            <div id="flush-collapseThreer" class="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <ul>
-                                        <li><a href="#">Consumer Electronic</a></li>
-                                        <li><a href="#">Accessories & Parts</a></li>
-                                        <li><a href="#">other brands</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li><a href="#" class="accordion-button collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseThreerrp" aria-expanded="false"
-                                aria-controls="flush-collapseThreerrp"><i class="fas fa-chair-office"></i>
-                                furnicture</a>
-                            <div id="flush-collapseThreerrp" class="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <ul>
-                                        <li><a href="#">home</a></li>
-                                        <li><a href="#">office</a></li>
-                                        <li><a href="#">restaurent</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li><a href="#" class="accordion-button collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseThreerrw" aria-expanded="false"
-                                aria-controls="flush-collapseThreerrw"><i class="fal fa-mobile"></i> Smart
-                                Phones</a>
-                            <div id="flush-collapseThreerrw" class="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <ul>
-                                        <li><a href="#">apple</a></li>
-                                        <li><a href="#">xiaomi</a></li>
-                                        <li><a href="#">oppo</a></li>
-                                        <li><a href="#">samsung</a></li>
-                                        <li><a href="#">vivo</a></li>
-                                        <li><a href="#">others</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li><a href="#"><i class="fas fa-home-lg-alt"></i> Home & Garden</a></li>
-                        <li><a href="#"><i class="far fa-camera"></i> Accessories</a></li>
-                        <li><a href="#"><i class="fas fa-heartbeat"></i> healthy & Beauty</a></li>
-                        <li><a href="#"><i class="fal fa-gift-card"></i> Gift Ideas</a></li>
-                        <li><a href="#"><i class="fal fa-gamepad-alt"></i> Toy & Games</a></li>
+                                @endif
+                            </li>
+                        @endforeach
+
+
+
                         <li><a href="#"><i class="fal fa-gem"></i> View All Categories</a></li>
                     </ul>
                 </div>
