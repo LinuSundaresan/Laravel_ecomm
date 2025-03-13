@@ -28,21 +28,30 @@
                     @csrf
 
                     <div class="form-group">
-                        <label>Image</label>
-                        <input type="file" class="form-control" name="image">
+                        <label>Logo</label>
+                        <input type="file" class="form-control" name="logo">
                     </div>
 
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" name="name"  value={{ old('name') }}>
+                        <input type="text" class="form-control" name="name" >
                     </div>
+                    <div class="form-group">
+                        <label>Is Featuted</label>
+                        <select class="form-control"  data-height="100%" name="is_featured" value={{ old('is_featured') }}>
+                          <option value="">--Select--</option>
+                          <option value="1">Yes</option>
+                          <option value="0">No</option>
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label>Status</label>
                         <select class="form-control"  data-height="100%" name="status" value={{ old('status') }}>
                           <option value="1">Active</option>
-                          <option value="0">Inactive</option>
+                          <option value="1">Inactive</option>
                         </select>
-                      </div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Create</button>
                 </form>
               </div>

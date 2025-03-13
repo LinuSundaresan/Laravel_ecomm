@@ -22,7 +22,38 @@ class BrandDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'brand.action')
+            ->addColumn('action', function($query){
+                $editBtn = "<a href='".route('admin.brand.edit' , $query->id)."' class='btn btn-primary' ><i class='fa fa-edit'></i>Edit</a>";
+                $deleteBtn = "<a href='".route('admin.brand.destroy' , $query->id)."' class='btn btn-danger ml-2 delete-item' ><i class='fa fa-trash'></i>Delete</a>";
+                return $editBtn.$deleteBtn;
+            })
+            ->addColumn('logo', function($query){
+                return $img="<img width='75px' src='".asset($query->logo)."'></img>";
+            })
+            ->addColumn('is_featured', function($query){
+                $active = '<i class="badge badge-success">Yes</i>';
+                $inactive = '<i class="badge badge-danger">No</i>';
+                return $query->status==1?$active:$inactive;
+
+            })
+            ->addColumn('status', function($query){
+
+                if($query->status==1){
+                    $button = '<label class="custom-switch">
+                          <input type="checkbox" name="option" value="'.$query->status.'" class="custom-switch-input change-status" data-id="'.$query->id.'" checked >
+                          <span class="custom-switch-indicator"></span>
+                        </label>';
+                } else {
+                    $button = '<label class="custom-switch">
+                          <input type="checkbox" name="option" value="'.$query->status.'" class="custom-switch-input change-status" data-id="'.$query->id.'">
+                          <span class="custom-switch-indicator"></span>
+                        </label>';
+                }
+
+                return $button;
+
+            })
+            ->rawColumns(['logo', 'action', 'is_featured', 'status'])
             ->setRowId('id');
     }
 
@@ -44,7 +75,7 @@ class BrandDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -62,15 +93,16 @@ class BrandDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->width(10),
+            Column::make('logo')->width(100),
+            Column::make('name')->width(100),
+            Column::make('is_featured')->width(100),
+            Column::make('status')->width(100),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(200)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

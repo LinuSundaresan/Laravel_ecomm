@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->text('logo');
-            $table->string('name');
-            $table->string('slug');
-            $table->boolean('is_featured');
-            $table->boolean('status');
+            $table->text('banner');
+            $table->string('phone');
+            $table->string('email');
+            $table->text('address');
+            $table->text('description');
+            $table->string('fb_link');
+            $table->string('tw_link');
+            $table->string('insta_link');
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('vendors');
     }
 };

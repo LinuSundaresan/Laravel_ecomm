@@ -13,7 +13,7 @@ trait ImageUploadTrait
             $image = $request->{$inputName};
             $ext = $image->getClientOriginalExtension();
             $imageName = 'media_'.uniqid().'.'.$ext;
-            $image->move(public_path('uploads/slider'), $imageName);
+            $image->move(public_path($path), $imageName);
             return  $path.'/'.$imageName;
         }
     }
@@ -29,7 +29,7 @@ trait ImageUploadTrait
             $image = $request->{$inputName};
             $ext = $image->getClientOriginalExtension();
             $imageName = 'media_'.uniqid().'.'.$ext;
-            $image->move(public_path('uploads/slider'), $imageName);
+            $image->move(public_path($path), $imageName);
             return  $path.'/'.$imageName;
         }
     }

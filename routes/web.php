@@ -2,12 +2,12 @@
 
 // use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\AdminVendorProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
-use App\Http\Controllers\Backend\VendorProfileController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -54,6 +54,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     //brand routes
     Route::put('brand/update-status', [BrandController::class, 'updateStatus'])->name('brand.update-status');
     Route::resource('brand', BrandController::class);
+
+    //Vendor Profile routes
+    Route::resource('vendor-profile', AdminVendorProfileController::class);
 });
 
 /**Admin Routes */
