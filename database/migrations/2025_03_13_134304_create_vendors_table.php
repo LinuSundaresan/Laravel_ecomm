@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('email');
             $table->text('address');
             $table->text('description');
-            $table->string('fb_link');
-            $table->string('tw_link');
-            $table->string('insta_link');
+            $table->integer('user_id');
+            $table->string('fb_link')->nullable();
+            $table->string('tw_link')->nullable();
+            $table->string('insta_link')->nullable();
             $table->timestamps();
         });
     }

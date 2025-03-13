@@ -24,45 +24,42 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <form action="{{ route('admin.slider.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.vendor-profile.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label>Banner</label>
                         <input type="file" class="form-control" name="banner">
                       </div>
                     <div class="form-group">
-                        <label>Type</label>
-                        <input type="text" class="form-control" name="type"  value={{ old('type') }}>
+                        <label>Phone</label>
+                        <input type="text" class="form-control" name="phone"  value={{ old('phone') }}>
                     </div>
                     <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" name="title"  value={{ old('title') }}>
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="email"  value={{ old('email') }}>
                     </div>
                     <div class="form-group">
-                        <label>Starting price</label>
-                        <input type="text" class="form-control" name="starting_price" value={{ old('starting_price') }}>
+                        <label>Address</label>
+                        <input type="text" class="form-control" name="address" value={{ old('Address') }}>
                     </div>
                     <div class="form-group">
-                        <label>Button URL</label>
-                        <input type="text" class="form-control" name="btn_url" value={{ old('btn_url') }}>
+                        <label>Description</label>
+                        <textarea class="summernote" name="description"></textarea>
                     </div>
-                    {{-- <div class="form-group">
-                        <label>Serial</label>
-                        <input type="text" class="form-control">
-                    </div> --}}
                     <div class="form-group">
-                        <label>Serial</label>
-                        <input type="text" class="form-control" name="serial" value={{ old('serial') }}>
+                        <label>Facebook</label>
+                        <input type="text" class="form-control" name="fb_link" value={{ old('fb_link') }}>
+                    </div>
+                    <div class="form-group">
+                        <label>Twitter</label>
+                        <input type="text" class="form-control" name="tw_link" value={{ old('tw_link') }}>
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="text" class="form-control" name="insta_link" value={{ old('insta_link') }}>
                     </div>
 
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select class="form-control"  data-height="100%" name="status" value={{ old('status') }}>
-                          <option value="1">Active</option>
-                          <option value="1">Inactive</option>
-                        </select>
-                      </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form>
               </div>
             </div>
