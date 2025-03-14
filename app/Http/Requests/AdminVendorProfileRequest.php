@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BrandStatusUpdateRequest extends FormRequest
+class AdminVendorProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,14 @@ class BrandStatusUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' =>['required' ],
-            'status' =>[ 'required'],
+            'banner' => ['nullable', 'image' , 'max:3000'],
+            'phone' => ['required', 'max:50'],
+            'email' => ['required', 'email', 'max:200'],
+            'address' => ['required'],
+            'description' => ['required'],
+            'fb_link' => ['nullable', 'url'],
+            'tw_link' => ['nullable', 'url'],
+            'insta_link' => ['nullable', 'url'],
         ];
     }
 }

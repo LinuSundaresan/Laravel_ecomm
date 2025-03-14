@@ -78,9 +78,9 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
 
 Route::prefix('vendor')->middleware('auth', 'role:vendor')->name('vendor.')->group(function(){
     Route::get('dashboard' , [VendorController::class, 'dashboard'])->name('dashboard');
-    Route::get('profile' , [VendorProfileController::class, 'index'])->name('profile');
-    Route::put('profile' , [VendorProfileController::class, 'updateProfile'])->name('profile.update');
-    Route::post('profile' , [VendorProfileController::class, 'updatePassword'])->name('profile.update.password');
+    // Route::get('profile' , [VendorProfileController::class, 'index'])->name('profile');
+    // Route::put('profile' , [VendorProfileController::class, 'updateProfile'])->name('profile.update');
+    // Route::post('profile' , [VendorProfileController::class, 'updatePassword'])->name('profile.update.password');
 });
 
 Route::get('admin/login', [AdminController::class, 'login'])->name('admin.login');

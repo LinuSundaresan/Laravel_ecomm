@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminVendorProfileRequest;
+use App\Interfaces\AdminVendorProfileRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminVendorProfileController extends Controller
 {
@@ -12,7 +15,10 @@ class AdminVendorProfileController extends Controller
      */
     public function index()
     {
-        return view('admin.vendor-profile.index');
+        $vendor = app(AdminVendorProfileRepositoryInterface::class)->getByUserId(Auth::user()->id);
+        return view('admin.vendor-profile.index', compact(
+            'vendor'
+        ));
     }
 
     /**
@@ -26,7 +32,7 @@ class AdminVendorProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AdminVendorProfileRequest $request)
     {
         dd($request->all());
     }
