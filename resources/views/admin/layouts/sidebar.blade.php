@@ -40,6 +40,7 @@
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Manage Products</span></a>
             <ul class="dropdown-menu">
               <li><a class="nav-link" href="{{route('admin.brand.index')}}">Brands</a></li>
+              <li><a class="nav-link" href="{{route('admin.brand.index')}}">Products</a></li>
             </ul>
           </li>
 

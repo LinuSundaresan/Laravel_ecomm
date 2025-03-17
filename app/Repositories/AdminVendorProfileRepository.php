@@ -16,4 +16,9 @@ class AdminVendorProfileRepository implements AdminVendorProfileRepositoryInterf
     {
         return $user= Vendor::where('user_id',$id)->first();
     }
+
+    public function update( $data , $id )
+    {
+        Vendor::where('user_id',$id)->update($data);
+    }
 }
