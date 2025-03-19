@@ -37,4 +37,14 @@ class ChildCategoryRepository implements ChildCategoryRepositoryInterface
     {
         return ChildCategory::where('sub_category_id', $id)->where('status', 1)->count();
     }
+
+    public function getChildCategoryBySubCategoryId($id)
+    {
+        return ChildCategory::where('sub_category_id', $id)->get();
+    }
+
+    public  function getAll()
+    {
+        return ChildCategory::all();
+    }
 }

@@ -9,5 +9,5 @@ interface BrandRepositoryInterface
     public function update(array $data , $id);
     public function delete($id);
     public function updateStatus($data, $id);
-    // public function getAll();
+    public function getAll();
 }

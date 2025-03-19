@@ -29,6 +29,10 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
  <!--Datatable-->
 
+ <!--datepicker-->
+ <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
+ <!--datepicker-->
+
     <!--toaster-->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!--toaster-->
@@ -93,6 +97,11 @@
   <!--toaster -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <!--toaster -->
+
+  <!--datepicker-->
+  <script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+  <!--datepicker-->
+
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>

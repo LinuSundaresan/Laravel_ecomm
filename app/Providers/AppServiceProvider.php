@@ -6,6 +6,7 @@ use App\Interfaces\AdminVendorProfileRepositoryInterface;
 use App\Interfaces\BrandRepositoryInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ChildCategoryRepositoryInterface;
+use App\Interfaces\ProductRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
@@ -15,6 +16,7 @@ use App\Repositories\AdminVendorProfileRepository;
 use App\Repositories\BrandRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ChildCategoryRepository;
+use App\Repositories\ProductRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
 
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ChildCategoryRepositoryInterface::class,ChildCategoryRepository::class);
         $this->app->bind(BrandRepositoryInterface::class , BrandRepository::class);
         $this->app->bind(AdminVendorProfileRepositoryInterface::class, AdminVendorProfileRepository::class );
+        $this->app->bind(ProductRepositoryInterface::class , ProductRepository::class );
 
     }
 

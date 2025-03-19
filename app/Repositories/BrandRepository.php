@@ -13,6 +13,11 @@ class BrandRepository implements BrandRepositoryInterface
         Brand::create($data);
     }
 
+    public function getAll()
+    {
+        return Brand::get();
+    }
+
     public function getById($id)
     {
         return Brand::findOrFail($id);
