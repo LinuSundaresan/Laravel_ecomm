@@ -8,6 +8,8 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
+use App\Http\Controllers\Backend\ProductVariantController;
+use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\SliderController;
@@ -65,7 +67,20 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::get('product/get-child-categories' , [ProductController::class , 'getChildCategories'])->name('product.get-child-categories');
     Route::resource('products', ProductController::class);
 
+    //products gallery routes
     Route::resource('products-image-gallery', ProductImageGalleryController::class);
+
+    //products variant routes
+    Route::put('products-variant/update-status', [ProductVariantController::class, 'updateStatus'])->name('products-variant.update-status');
+    Route::resource('products-variant', ProductVariantController::class);
+
+    //product variant item routes
+    Route::put('products-variant-item/update-status', [ProductVariantItemController::class, 'updateStatus'])->name('products-variant-item.update-status');
+    Route::get('products-variant-item/{productId}/{variantId}', [ProductVariantItemController::class, 'index'])->name('products-variant-item.index');
+    Route::get('products-variant-item/create/{productId}/{variantId}', [ProductVariantItemController::class, 'create'])->name('products-variant-item.create');
+    Route::post('products-variant-item', [ProductVariantItemController::class, 'store'])->name('products-variant-item.store');
+    Route::get('products-variant-item-edit/{variantItemId}', [ProductVariantItemController::class, 'edit'])->name('products-variant-item.edit');
+    Route::delete('products-variant-item/{variantItemId}', [ProductVariantItemController::class, 'destroy'])->name('products-variant-item.destroy');
 });
 
 /**Admin Routes */

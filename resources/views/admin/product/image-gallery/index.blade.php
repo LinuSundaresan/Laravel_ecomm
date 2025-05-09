@@ -14,6 +14,7 @@
 
     <div class="section-body">
 
+        <a href="{{ route('admin.products.index') }}" class="btn btn-primary mb-3">Back</a>
         <div class="row">
 
             <div class="col-12 col-md-6 col-lg-12">

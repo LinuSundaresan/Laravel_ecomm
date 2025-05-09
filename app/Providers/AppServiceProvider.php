@@ -8,6 +8,8 @@ use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ChildCategoryRepositoryInterface;
 use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Interfaces\ProductVariantItemRepositoryInterface;
+use App\Interfaces\ProductVariantRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
@@ -19,6 +21,8 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\ChildCategoryRepository;
 use App\Repositories\ProductImageGalleryRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\ProductVariantItemRepository;
+use App\Repositories\ProductVariantRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
 
@@ -38,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AdminVendorProfileRepositoryInterface::class, AdminVendorProfileRepository::class );
         $this->app->bind(ProductRepositoryInterface::class , ProductRepository::class );
         $this->app->bind(ProductImageGalleryRepositoryInterface::class, ProductImageGalleryRepository::class );
+        $this->app->bind(ProductVariantRepositoryInterface::class, ProductVariantRepository::class );
+        $this->app->bind(ProductVariantItemRepositoryInterface::class , ProductVariantItemRepository::class);
 
     }
 
