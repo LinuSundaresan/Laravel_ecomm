@@ -42,4 +42,31 @@
 
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+    <script>
+        $('document').ready(function(){
+            $('body').on('click', '.change-status', function(){
+                let isChecked = $(this).is(':checked');
+                let product_id = $(this).data('id');
+
+                $.ajax({
+                    'url': "{{ route('admin.product.update-status') }}",
+                    'method': 'PUT',
+                    'data': {
+                        'status' : isChecked,
+                        'id' : product_id
+                    },
+                    'success': function (data) {
+                        console.log(data);
+                        toastr.success(data.message);
+                    },
+                    'error': function(xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            })
+
+
+        });
+    </script>
 @endpush

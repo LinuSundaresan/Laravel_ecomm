@@ -37,4 +37,9 @@ class ProductVariantRepository implements ProductVariantRepositoryInterface
     {
         return ProductVariant::findOrFail($id);
     }
+
+    public function getProductVariantsByProduct($productId)
+    {
+        return ProductVariant::where('product_id', $productId)->get();
+    }
 }

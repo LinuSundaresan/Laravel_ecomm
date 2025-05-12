@@ -10,7 +10,9 @@ use App\Interfaces\BrandRepositoryInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
 use App\Interfaces\ChildCategoryRepositoryInterface;
+use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Interfaces\ProductVariantRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Support\Facades\Auth;
@@ -97,8 +99,41 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = app(ProductRepositoryInterface::class)->getById($id);
+        $this->deleteImage($product->thumb_image);
+
+        $galleryImages = app(ProductImageGalleryRepositoryInterface::class)->getAllGaleryByProductId($id);
+
+        foreach($galleryImages as $image){
+            $this->deleteImage($image->image);
+        }
+
+        $variants = app(ProductVariantRepositoryInterface::class)->getProductVariantsByProduct($id);
+
+        foreach($variants as $variant){
+            $variant->productVariantItems()->delete();
+            $variant->delete();
+        }
+
+        app(ProductRepositoryInterface::class)->delete($id);
+
+        return response(["status" => "success" , "message" =>
+        "Product deleted successfully!"]);
+
     }
+
+    /**
+     * Update status of products.
+     */
+
+     public function updateStatus(Request $request)
+     {
+         $request->status=='false' ? $status = 0 : $status = 1;
+
+         $data = ['status'=> $status];
+         app(ProductRepositoryInterface::class)->updateStatus($data ,$request->id);
+         return response(['status' =>'success' , 'message' =>"Status updated successfully"]);
+     }
 
     public function getSubCategories(Request $request)
     {

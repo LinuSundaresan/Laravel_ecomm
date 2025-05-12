@@ -65,6 +65,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     //products routes
     Route::get('product/get-subcategories' , [ProductController::class , 'getSubCategories'])->name('product.get-subcategories');
     Route::get('product/get-child-categories' , [ProductController::class , 'getChildCategories'])->name('product.get-child-categories');
+    Route::put('product/update-status', [ProductController::class, 'updateStatus'])->name('product.update-status');
     Route::resource('products', ProductController::class);
 
     //products gallery routes
@@ -80,7 +81,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::get('products-variant-item/create/{productId}/{variantId}', [ProductVariantItemController::class, 'create'])->name('products-variant-item.create');
     Route::post('products-variant-item', [ProductVariantItemController::class, 'store'])->name('products-variant-item.store');
     Route::get('products-variant-item-edit/{variantItemId}', [ProductVariantItemController::class, 'edit'])->name('products-variant-item.edit');
+    Route::put('products-variant-item-update/{variantItemId}', [ProductVariantItemController::class, 'update'])->name('products-variant-item.update');
     Route::delete('products-variant-item/{variantItemId}', [ProductVariantItemController::class, 'destroy'])->name('products-variant-item.destroy');
+    Route::put('products-variant-item-status', [ProductVariantItemController::class, 'changeStatus'])->name('products-variant-item.change-status');
 });
 
 /**Admin Routes */

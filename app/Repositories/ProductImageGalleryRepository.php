@@ -21,4 +21,10 @@ class ProductImageGalleryRepository implements ProductImageGalleryRepositoryInte
     {
         ProductImageGallery::findOrFail($id)->delete();
     }
+
+    public function getAllGaleryByProductId($productId)
+    {
+        $gallery = ProductImageGallery::where('product_id', $productId)->get();
+        return $gallery;
+    }
 }

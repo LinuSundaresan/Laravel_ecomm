@@ -7,4 +7,5 @@ interface ProductImageGalleryRepositoryInterface
     public function create($data);
     public function getById($id);
     public function delete($id);
+    public function getAllGaleryByProductId($productId);
 }

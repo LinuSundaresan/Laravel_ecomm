@@ -15,4 +15,6 @@ interface ProductVariantRepositoryInterface
     public function delete($id);
 
     public function getProductByVariant($id);
+
+    public function getProductVariantsByProduct($productId);
 }

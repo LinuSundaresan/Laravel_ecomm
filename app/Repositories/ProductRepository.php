@@ -10,7 +10,6 @@ class ProductRepository implements ProductRepositoryInterface
 {
     public function create(array $data)
     {
-       // dd($data);
         Product::create($data);
     }
 
@@ -22,5 +21,15 @@ class ProductRepository implements ProductRepositoryInterface
     public function update($data , $id)
     {
         Product::findOrFail($id)->update($data);
+    }
+
+    public function delete($id)
+    {
+        Product::findOrFail($id)->delete();
+    }
+
+    public function updateStatus( $data, $id )
+    {
+        Product::find($id)->update( $data );
     }
 }

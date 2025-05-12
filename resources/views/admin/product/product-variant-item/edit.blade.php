@@ -24,13 +24,12 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <form action="" method="POST" >
+                <form action="{{ route('admin.products-variant-item.update' , $variantData->id) }}" method="POST" >
                     @csrf
-
+                    @method('PUT');
                     <div class="form-group">
                         <label>Variant Name</label>
                         <input type="text" class="form-control" name="variant_name"  value="{{ $variantData->productVariant->name }}" readonly>
-
                     </div>
                     <div class="form-group">
                         <label>Item Name</label>
