@@ -15,6 +15,7 @@ use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Interfaces\SliderRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
+use App\Interfaces\VendorShopProfileRepositoryInterface;
 use App\Repositories\AdminVendorProfileRepository;
 use App\Repositories\BrandRepository;
 use App\Repositories\CategoryRepository;
@@ -25,6 +26,7 @@ use App\Repositories\ProductVariantItemRepository;
 use App\Repositories\ProductVariantRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
+use App\Repositories\VendorShopProfileRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductImageGalleryRepositoryInterface::class, ProductImageGalleryRepository::class );
         $this->app->bind(ProductVariantRepositoryInterface::class, ProductVariantRepository::class );
         $this->app->bind(ProductVariantItemRepositoryInterface::class , ProductVariantItemRepository::class);
+        $this->app->bind(VendorShopProfileRepositoryInterface::class , VendorShopProfileRepository::class);
 
     }
 

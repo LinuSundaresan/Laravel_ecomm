@@ -111,7 +111,9 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
   <script>
-    $('.summernote').summernote();
+    $('.summernote').summernote({
+        height : 150
+    });
   </script>
   <script>
     @if($errors->any())

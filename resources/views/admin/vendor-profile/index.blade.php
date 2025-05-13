@@ -36,13 +36,17 @@
                         <label>Banner</label>
                         <input type="file" class="form-control" name="banner">
                     </div>
+                    <div class="form-group wsus_input">
+                        <label>Shop Name</label>
+                        <input type="text" class="form-control" name="shop_name"  value="{{ $vendor->shop_name }}">
+                    </div>
                     <div class="form-group">
                         <label>Phone</label>
-                        <input type="text" class="form-control" name="phone"  value={{ $vendor->phone }}>
+                        <input type="text" class="form-control" name="phone"  value="{{ $vendor->phone }}">
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="text" class="form-control" name="email"  value={{ $vendor->email }}>
+                        <input type="text" class="form-control" name="email"  value="{{ $vendor->email }}">
                     </div>
                     <div class="form-group">
                         <label>Address</label>

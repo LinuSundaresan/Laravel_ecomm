@@ -14,7 +14,7 @@
             <div class="wsus__dashboard_profile">
               <div class="wsus__dash_pro_area">
                 <div class="table-responsive">
-                    <form action="{{ route('admin.vendor-profile.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('vendor.shop-profile.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group">
@@ -25,6 +25,10 @@
                         <div class="form-group wsus_input">
                             <label>Banner</label>
                             <input type="file" class="form-control" name="banner">
+                        </div>
+                        <div class="form-group wsus_input">
+                            <label>Shop Name</label>
+                            <input type="text" class="form-control" name="shop_name"  value={{ $vendor->shop_name }}>
                         </div>
                         <div class="form-group wsus_input">
                             <label>Phone</label>

@@ -28,6 +28,8 @@
                         <img src="{{Auth::user()->image}}" width="100" class="mb-4" />
                         <input type="file" class="form-control" name="image" >
                       </div>
+
+
                     <div class="form-group col-md-6 col-12">
                       <label>Name</label>
                       <input type="text" class="form-control" name="name" value="{{Auth::user()->name}}" >
