@@ -109,6 +109,10 @@
   <script src="{{asset('frontend/js/main.js')}}"></script>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+  <script>
+    $('.summernote').summernote();
+  </script>
   <script>
     @if($errors->any())
         @foreach($errors->all() as $error)
