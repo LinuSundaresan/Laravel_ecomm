@@ -9474,6 +9474,24 @@ a:not([href]):not([class]):hover {
     margin-bottom: 20px;
 }
 
+.wsus_input select{
+    padding: 10px;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #353535;
+    resize: none;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
 .wsus_input label{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.create-button {
+    text-align: right;
+    margin-top: 5px;
     margin-bottom: 5px;
 }

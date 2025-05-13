@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\Backend\VendorProfileController;
 use App\Http\Controllers\Backend\VendorShopProfileController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -113,6 +114,12 @@ Route::prefix('vendor')->middleware('auth', 'role:vendor')->name('vendor.')->gro
 
     /*vendor shop profile*/
     Route::resource('shop-profile', VendorShopProfileController::class);
+
+    //products routes
+    Route::get('product/get-subcategories' , [VendorProductController::class , 'getSubCategories'])->name('product.get-subcategories');
+    Route::get('product/get-child-categories' , [VendorProductController::class , 'getChildCategories'])->name('product.get-child-categories');
+    // Route::put('product/update-status', [ProductController::class, 'updateStatus'])->name('product.update-status');
+    Route::resource('products', VendorProductController::class);
 
 });
 
