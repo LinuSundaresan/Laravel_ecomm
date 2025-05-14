@@ -26,14 +26,22 @@ class VendorProductDataTable extends DataTable
             ->addColumn('action', function($query){
                 $editBtn = "<a href='".route('vendor.products.edit' , $query->id)."' class='btn btn-primary' ><i class='fa fa-edit'></i>Edit</a>";
                 $deleteBtn = "<a href='".route('vendor.products.destroy' , $query->id)."' class='btn btn-danger ms-1 delete-item' ><i class='fa fa-trash'></i>Delete</a>";
-                $moreBtn = '<div class="dropdown dropleft d-inline">
-                    <button class="btn btn-primary ms-1 dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="fas fa-cog"></i>
-                    </button>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                        <a class="dropdown-item has-icon" href="'.route('admin.products-image-gallery.index', ['product'=>$query->id]).'"><i class="far fa-heart"></i> Image Gallery</a>
-                        <a class="dropdown-item has-icon" href="'.route('admin.products-variant.index', ['product'=>$query->id]).'"><i class="far fa-file"></i> Variants</a>
-                    </div>
+                // $moreBtn = '<div class="dropdown dropleft d-inline">
+                //     <button class="btn btn-primary ms-1 dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                //         <i class="fas fa-cog"></i>
+                //     </button>
+                //     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                //         <a class="dropdown-item has-icon" href="'.route('admin.products-image-gallery.index', ['product'=>$query->id]).'"><i class="far fa-heart"></i> Image Gallery</a>
+                //         <a class="dropdown-item has-icon" href="'.route('admin.products-variant.index', ['product'=>$query->id]).'"><i class="far fa-file"></i> Variants</a>
+                //     </div>
+                //     </div>';
+                $moreBtn = '<div class="btn-group dropstart ms-1">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-cog"></i></button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item has-icon" href="'.route('vendor.products-image-gallery.index', ['product'=>$query->id]).'"> Image Gallery</a></li>
+
+                        <li><a class="dropdown-item has-icon" href="'.route('admin.products-variant.index', ['product'=>$query->id]).'"> Variants</a></li>
+                    </ul>
                     </div>';
                 return $editBtn.$deleteBtn.$moreBtn;
             })
