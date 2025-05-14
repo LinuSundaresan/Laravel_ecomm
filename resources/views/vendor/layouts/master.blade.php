@@ -32,6 +32,11 @@
   <link rel="stylesheet" href="//cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
 
+
+  <!--datepicker-->
+  <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
+  <!--datepicker-->
+
 </head>
 
 <body>
@@ -117,10 +122,25 @@
   <script src="//cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 
+  <script src="{{asset('backend/assets/modules/moment.min.js')}}"></script>
+
+   <!--datepicker-->
+   <script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+   <!--datepicker-->
+
   <script>
     $('.summernote').summernote({
         height : 150
     });
+
+    $('.datepicker').daterangepicker(
+        {
+            locale : {
+                format : "YYYY-MM-DD"
+            },
+            singleDatePicker : true
+        }
+    );
   </script>
   <script>
     @if($errors->any())

@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -22,7 +23,66 @@ class VendorProductDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'vendorproduct.action')
+            ->addColumn('action', function($query){
+                $editBtn = "<a href='".route('vendor.products.edit' , $query->id)."' class='btn btn-primary' ><i class='fa fa-edit'></i>Edit</a>";
+                $deleteBtn = "<a href='".route('vendor.products.destroy' , $query->id)."' class='btn btn-danger ms-1 delete-item' ><i class='fa fa-trash'></i>Delete</a>";
+                $moreBtn = '<div class="dropdown dropleft d-inline">
+                    <button class="btn btn-primary ms-1 dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item has-icon" href="'.route('admin.products-image-gallery.index', ['product'=>$query->id]).'"><i class="far fa-heart"></i> Image Gallery</a>
+                        <a class="dropdown-item has-icon" href="'.route('admin.products-variant.index', ['product'=>$query->id]).'"><i class="far fa-file"></i> Variants</a>
+                    </div>
+                    </div>';
+                return $editBtn.$deleteBtn.$moreBtn;
+            })
+            ->addColumn('image', function($query){
+                return '<img width="100" height="70" src="' . asset($query->thumb_image) . '" ></img>';
+            })
+            ->addColumn('type', function($query){
+                switch ($query->product_type) {
+                    case 'new_arrival':
+                        return '<i class="badge bg-success">New Arrivals</i>';
+                        break;
+                    case 'featured_product':
+                        return '<i class="badge bg-warning">Featured</i>';
+                        break;
+                    case 'top_product':
+                        return '<i class="badge bg-danger">Top Product</i>';
+                        break;
+                    case 'best_product':
+                        return '<i class="badge bg-info">Best Product</i>';
+                        break;
+                }
+
+            })
+            ->addColumn('status', function($query){
+
+                if($query->status==1){
+                    // $button = '<label class="custom-switch">
+                    //     <input type="checkbox" name="option" value="'.$query->status.'" class="custom-switch-input change-status" data-id="'.$query->id.'" checked >
+                    //     <span class="custom-switch-indicator"></span>
+                    //     </label>';
+                    $button = '<div class="form-check form-switch">
+                        <input class="form-check-input change-status" type="checkbox" id="flexSwitchCheckDefault" data-id="'.$query->id.'" checked>
+
+                        </div>';
+                } else {
+                    // $button = '<label class="custom-switch">
+                    //     <input type="checkbox" name="option" value="'.$query->status.'" class="custom-switch-input change-status" data-id="'.$query->id.'">
+                    //     <span class="custom-switch-indicator"></span>
+                    //     </label>';
+
+                    $button = '<div class="form-check form-switch">
+                        <input class="form-check-input change-status" type="checkbox" id="flexSwitchCheckDefault" data-id="'.$query->id.'">
+                        </div>';
+                }
+
+                return $button;
+
+            })
+            ->rawColumns(['image', 'type', 'action', 'status'])
             ->setRowId('id');
     }
 
@@ -31,7 +91,7 @@ class VendorProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where("vendor_id", Auth::user()->vendor->id)->newQuery();
     }
 
     /**
@@ -62,15 +122,17 @@ class VendorProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('image'),
+            Column::make('name'),
+            Column::make('price'),
+            Column::make('type')->width(150),
+            Column::make('status'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(320)
+            ->addClass('text-center')
         ];
     }
 

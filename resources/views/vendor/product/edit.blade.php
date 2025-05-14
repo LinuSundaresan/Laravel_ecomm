@@ -16,15 +16,20 @@
               <div class="wsus__dash_pro_area">
                 <div class="table-responsive">
 
-                    <form action="{{ route('vendor.products.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('vendor.products.update' , $product->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
+                        <div class="form-group wsus_input">
+                            <label>Preview</label>
+                            <img src="{{ asset($product->thumb_image) }}" alt="product_thumb_image" width="150"/>
+                        </div>
                         <div class="form-group wsus_input">
                             <label>Image</label>
                             <input type="file" class="form-control" name="thumb_image">
-                          </div>
+                        </div>
                         <div class="form-group wsus_input">
                             <label>Name</label>
-                            <input type="text" class="form-control" name="name"  value={{ old('name') }}>
+                            <input type="text" class="form-control" name="name"  value="{{ $product->name }}">
                         </div>
 
                         <div class="row container-fluid">
@@ -34,7 +39,7 @@
                                     <select class="form-control main-category"  data-height="100%" name="category_id" v>
                                       <option value="">--Select--</option>
                                       @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option {{ $category->id==$product->category_id? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
                                       @endforeach
                                     </select>
                                 </div>
@@ -43,7 +48,10 @@
                                 <div class="form-group wsus_input">
                                     <label>Sub Category</label>
                                     <select class="form-control sub-category"  data-height="100%" name="sub_category_id" >
-
+                                        <option value="">--Select--</option>
+                                        @foreach ($subCategories as $subCategory)
+                                          <option {{ $subCategory->id==$product->sub_category_id? 'selected' : '' }} value="{{ $subCategory->id }}">{{ $subCategory->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -51,79 +59,82 @@
                                 <div class="form-group wsus_input">
                                     <label>Child Category</label>
                                     <select class="form-control child-category"  data-height="100%" name="child_category_id">
-
+                                        <option value="">--Select--</option>
+                                        @foreach ($childCategories as $childCategory)
+                                          <option {{ $childCategory->id==$product->child_category_id? 'selected' : '' }} value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group wsus_input">
                             <label>Brands</label>
-                            <select class="form-control wsus_input"  data-height="100%" name="brand_id" value={{ old('brand') }}>
+                            <select class="form-control"  data-height="100%" name="brand_id" value={{ old('brand') }}>
                               <option value="">--Select--</option>
                               @foreach ($brands as $brand)
-                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                <option {{ $brand->id==$product->brand_id? 'selected' : '' }} value="{{ $brand->id }}">{{ $brand->name }}</option>
                               @endforeach
                             </select>
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>SKU</label>
-                            <input type="text" class="form-control" name="sku"  value={{ old('sku') }}>
+                            <input type="text" class="form-control" name="sku"  value="{{ $product->sku }}">
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>Price</label>
-                            <input type="text" class="form-control" name="price"  value={{ old('price') }}>
+                            <input type="text" class="form-control" name="price"  value="{{ $product->price }}">
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>Offer Price</label>
-                            <input type="text" class="form-control" name="offer_price"  value={{ old('offer_price') }}>
+                            <input type="text" class="form-control" name="offer_price"  value="{{ $product->offer_price }}">
                         </div>
 
                         <div class="row container-fluid">
                             <div class="col-md-6">
                                 <div class="form-group wsus_input">
                                     <label>Offer Start Date</label>
-                                    <input type="text" class="form-control datepicker" name="offer_start_date"  value={{ old('offer_start_date') }}>
+                                    <input type="text" class="form-control datepicker" name="offer_start_date"  value="{{ $product->offer_start_date }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group wsus_input">
                                     <label>Offer End Date</label>
-                                    <input type="text" class="form-control datepicker" name="offer_end_date"  value={{ old('offer_end_date') }}>
+                                    <input type="text" class="form-control datepicker" name="offer_end_date"  value="{{ $product->offer_end_date }}">
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>Stock Quantity</label>
-                            <input type="number" min="0" class="form-control" name="qty"  value={{ old('qty') }}>
+                            <input type="number" min="0" class="form-control" name="qty"  value="{{ $product->qty }}">
                         </div>
                         <div class="form-group wsus_input">
                             <label>Video Link</label>
-                            <input type="text" class="form-control" name="video_link"  value={{ old('video_link') }}>
+                            <input type="text" class="form-control" name="video_link"  value="{{ $product->video_link }}">
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>Short Description</label>
-                            <textarea name="short_description" class="form-control" id="" ></textarea>
+                            <textarea name="short_description" class="form-control" id="" >{{ $product->short_description }}</textarea>
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>Long Description</label>
-                            <textarea name="long_description" class="form-control summernote" id="" ></textarea>
+                            <textarea name="long_description" class="form-control summernote" id="" > {{ $product->long_description }}</textarea>
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>Product Type</label>
                             <select class="form-control"  data-height="100%" name="product_type" value={{ old('is_top') }}>
                                 <option value="">--select--</option>
-                                <option value="new_arrival">New Arrivals</option>
-                                <option value="featured_product">Featured</option>
-                                <option value="top_product">Top Product</option>
-                                <option value="best_product">Best Product</option>
+                                <option {{ $product->product_type=='new_arrival'? 'selected' : '' }} value="new_arrival">New Arrivals</option>
+                                <option {{ $product->product_type=='featured_product'? 'selected' : '' }} value="featured_product">Featured</option>
+                                <option {{ $product->product_type=='top_product'? 'selected' : '' }} value="top_product">Top Product</option>
+                                <option {{ $product->product_type=='best_product'? 'selected' : '' }} value="best_product">Best Product</option>
                             </select>
                         </div>
 
@@ -132,23 +143,23 @@
                             <label>Status</label>
                             <select class="form-control"  data-height="100%" name="status">
                               <option value="">--select--</option>
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
+                              <option {{ $product->status==1? 'selected' : '' }} value="1">Active</option>
+                              <option {{ $product->status==0? 'selected' : '' }} value="0">Inactive</option>
                             </select>
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>Seo Title</label>
-                            <input type="text" class="form-control" name="seo_title"  value={{ old('seo_title') }}>
+                            <input type="text" class="form-control" name="seo_title" value="{{ $product->seo_title }}"/>
                         </div>
 
                         <div class="form-group wsus_input">
                             <label>Seo Description</label>
-                            <textarea name="seo_description" class="form-control" value={{ old('seo_description') }}></textarea>
+                            <textarea name="seo_description" class="form-control" >{{ $product->seo_description }}</textarea>
                         </div>
 
 
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </form>
 
                 </div>
@@ -167,7 +178,7 @@
     $(document).ready(function(e){
 
         $('body').on('change', '.main-category', function(){
-
+            $('.child-category').html('<option >--Select--</option>');
             let id = $(this).val();
 
             $.ajax({
@@ -202,7 +213,7 @@
                     'id' : id
                 },
                 success : function(data){
-                    $('.child-category').html('<option >--Select--</option>');
+                    $('.child-category').html('<option value="">--Select--</option>');
                     $.each(data, function(i, item){
                         $('.child-category').append(`<option value="${item.id}">${item.name}</option>`);
                     });
