@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Backend;
 
 use App\DataTables\VendorProductImageGalleryDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VendorProductImageGalleryRequest;
+use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
+
+use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
 class VendorProductImageGalleryController extends Controller
 {
+
+    use ImageUploadTrait;
+
+
     /**
      * Display a listing of the resource.
      */
@@ -31,9 +39,14 @@ class VendorProductImageGalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(VendorProductImageGalleryRequest $request)
     {
-        //
+        $imagePaths = $this->uploadMultipleImage($request, 'image' , 'uploads/products');
+        foreach ($imagePaths as $imagePath){
+            app(ProductImageGalleryRepositoryInterface::class)->create(array_merge($request->validated(),['image'=>$imagePath]) );
+        }
+        toastr()->success('Product Gallery Updated Successfully!');
+        return redirect()->back();
     }
 
     /**
@@ -65,6 +78,9 @@ class VendorProductImageGalleryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $productGallery = app(ProductImageGalleryRepositoryInterface::class)->getById($id);
+        $this->deleteImage($productGallery->image);
+        app(ProductImageGalleryRepositoryInterface::class)->delete($id);
+        return response(['status' =>'success' , 'message' =>"Product Image deleted successfully"]);
     }
 }

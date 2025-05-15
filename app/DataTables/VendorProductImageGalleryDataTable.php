@@ -22,7 +22,13 @@ class VendorProductImageGalleryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'vendorproductimagegallery.action')
+            ->addColumn('action', function($query){
+                return $deleteBtn = "<a href='".route('vendor.products-image-gallery.destroy' , $query->id)."' class='btn btn-danger ml-2 delete-item' ><i class='fa fa-trash'></i></a>";
+            })
+            ->addColumn('image',function($query){
+                return $image = '<img width="100" src="'.asset($query->image).'" />';
+            })
+            ->rawColumns(['image', 'action'])
             ->setRowId('id');
     }
 
@@ -31,7 +37,7 @@ class VendorProductImageGalleryDataTable extends DataTable
      */
     public function query(ProductImageGallery $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('product_id', request()->product)->newQuery();
     }
 
     /**
@@ -62,15 +68,13 @@ class VendorProductImageGalleryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->width(50),
+            Column::make('image'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                  ->width(200)
+                  ->addClass('text-center')
         ];
     }
 
