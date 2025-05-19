@@ -37,14 +37,14 @@
         $('document').ready(function(){
             $('body').on('click', '.change-status', function(){
                 let isChecked = $(this).is(':checked');
-                let product_id = $(this).data('id');
+                let product_variant_id = $(this).data('id');
 
                 $.ajax({
-                    'url': "{{ route('admin.product.update-status') }}",
+                    'url': "{{ route('vendor.products-variant.update-status') }}",
                     'method': 'PUT',
                     'data': {
                         'status' : isChecked,
-                        'id' : product_id
+                        'id' : product_variant_id
                     },
                     'success': function (data) {
                         console.log(data);

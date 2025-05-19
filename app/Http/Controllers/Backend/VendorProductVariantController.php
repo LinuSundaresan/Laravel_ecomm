@@ -6,6 +6,7 @@ use App\DataTables\VendorProductVariantDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VendorProductVariantRequest;
 use App\Http\Requests\VendorProductVariantUpdateRequest;
+use App\Interfaces\ProductVariantItemRepositoryInterface;
 use App\Interfaces\ProductVariantRepositoryInterface;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -76,12 +77,23 @@ class VendorProductVariantController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $productVariantItemCount = app(ProductVariantItemRepositoryInterface::class)->getVariantItemCountByVariant($id);
+
+        if($productVariantItemCount > 0)
+        {
+            return response(['status' =>'error' , 'message' =>"This Variant contains variant items. Inorder to delete this Variant you have to delete all variant items first"]);
+        }
+
+        app(ProductVariantRepositoryInterface::class)->delete($id);
+        return response(['status' =>'success', 'message' => 'Product Variant deleted successfully']);
     }
 
 
-    public function updateStatus()
+    public function updateStatus(Request $request)
     {
-
+        $request->status=='false' ? $status = 0 : $status = 1;
+        $data = ['status'=> $status];
+        app(ProductVariantRepositoryInterface::class)->updateStatus($data ,$request->id);
+        return response(['status' =>'success' , 'message' =>"Status updated successfully"]);
     }
 }
