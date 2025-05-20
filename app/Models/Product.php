@@ -23,4 +23,14 @@ class Product extends Model
         'status',
         'product_type'
     ];
+
+    public function galleryImages()
+    {
+        return $this->hasMany(ProductImageGallery::class);
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
 }

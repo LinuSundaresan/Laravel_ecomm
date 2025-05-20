@@ -9,12 +9,15 @@ use App\Http\Requests\VendorProductUpdateRequest;
 use App\Interfaces\BrandRepositoryInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ChildCategoryRepositoryInterface;
+use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Interfaces\ProductVariantRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
+use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use App\Traits\ImageUploadTrait;
 
 class VendorProductController extends Controller
 {
@@ -107,7 +110,32 @@ class VendorProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+        $product = app(ProductRepositoryInterface::class)->getById($id);
+
+        if($product->vendor_id != Auth::user()->vendor->id){
+            abort(403, 'You are not authorized to access this product');
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            app(ProductRepositoryInterface::class)->delete($id);
+
+            DB::commit();
+
+            return response(["status" => "success" , "message" =>
+            "Product deleted successfully!"]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response([
+                "status" => "error",
+                "message" => "Failed to delete product: " . $e->getMessage()
+            ], 500);
+        }
     }
 
 

@@ -10,12 +10,12 @@ use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\ProductVariantItemRepositoryInterface;
 use App\Interfaces\ProductVariantRepositoryInterface;
-use Illuminate\Support\ServiceProvider;
-use App\Interfaces\UserRepositoryInterface;
-use App\Repositories\UserRepository;
 use App\Interfaces\SliderRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\VendorShopProfileRepositoryInterface;
+use App\Models\Product;
+use App\Observers\ProductObserver;
 use App\Repositories\AdminVendorProfileRepository;
 use App\Repositories\BrandRepository;
 use App\Repositories\CategoryRepository;
@@ -26,7 +26,9 @@ use App\Repositories\ProductVariantItemRepository;
 use App\Repositories\ProductVariantRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
+use App\Repositories\UserRepository;
 use App\Repositories\VendorShopProfileRepository;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,5 +58,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Product::observe(ProductObserver::class);
     }
 }

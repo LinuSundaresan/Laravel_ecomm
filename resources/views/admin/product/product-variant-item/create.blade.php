@@ -23,6 +23,7 @@
 
             </div>
             <div class="card-body">
+
               <div class="table-responsive">
                 <form action="{{ route('admin.products-variant-item.store') }}" method="POST" >
                     @csrf
