@@ -138,6 +138,18 @@ class VendorProductController extends Controller
         }
     }
 
+    /**
+     * Update status of products.
+     */
+
+     public function updateStatus(Request $request)
+     {
+         $request->status=='false' ? $status = 0 : $status = 1;
+
+         $data = ['status'=> $status];
+         app(ProductRepositoryInterface::class)->updateStatus($data ,$request->id);
+         return response(['status' =>'success' , 'message' =>"Status updated successfully"]);
+     }
 
     public function getSubCategories(Request $request)
     {

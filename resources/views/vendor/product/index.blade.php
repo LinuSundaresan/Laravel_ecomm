@@ -39,7 +39,7 @@
                 let product_id = $(this).data('id');
 
                 $.ajax({
-                    'url': "{{ route('admin.product.update-status') }}",
+                    'url': "{{ route('vendor.product.update-status') }}",
                     'method': 'PUT',
                     'data': {
                         'status' : isChecked,

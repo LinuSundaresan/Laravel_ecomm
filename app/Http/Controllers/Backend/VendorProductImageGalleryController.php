@@ -10,6 +10,7 @@ use App\Interfaces\ProductRepositoryInterface;
 
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VendorProductImageGalleryController extends Controller
 {
@@ -23,6 +24,11 @@ class VendorProductImageGalleryController extends Controller
     public function index(Request $request, VendorProductImageGalleryDataTable $datatable)
     {
         $product = app(ProductRepositoryInterface::class)->getById($request->product);
+
+        if($product->vendor_id != Auth::user()->vendor->id){
+            abort(403, 'You are not authorized to access this product');
+        }
+
         return $datatable->render('vendor.product.image-gallery.index', compact(
             'product'
         ));
@@ -79,6 +85,11 @@ class VendorProductImageGalleryController extends Controller
     public function destroy(string $id)
     {
         $productGallery = app(ProductImageGalleryRepositoryInterface::class)->getById($id);
+
+        if($productGallery->product->vendor_id != Auth::user()->vendor->id){
+            abort(403, 'You are not authorized to access this product');
+        }
+
         $this->deleteImage($productGallery->image);
         app(ProductImageGalleryRepositoryInterface::class)->delete($id);
         return response(['status' =>'success' , 'message' =>"Product Image deleted successfully"]);

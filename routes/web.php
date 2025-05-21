@@ -121,7 +121,7 @@ Route::prefix('vendor')->middleware('auth', 'role:vendor')->name('vendor.')->gro
     //products routes
     Route::get('product/get-subcategories' , [VendorProductController::class , 'getSubCategories'])->name('product.get-subcategories');
     Route::get('product/get-child-categories' , [VendorProductController::class , 'getChildCategories'])->name('product.get-child-categories');
-    // Route::put('product/update-status', [ProductController::class, 'updateStatus'])->name('product.update-status');
+    Route::put('product/update-status', [VendorProductController::class, 'updateStatus'])->name('product.update-status');
     Route::resource('products', VendorProductController::class);
 
     Route::resource('products-image-gallery', VendorProductImageGalleryController::class);
