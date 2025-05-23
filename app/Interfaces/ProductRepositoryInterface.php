@@ -9,4 +9,5 @@ interface ProductRepositoryInterface
     public function update($data , $id);
     public function delete($id);
     public function updateStatus($data , $id);
+    public function updateApproval($data , $id);
 }

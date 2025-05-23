@@ -32,4 +32,9 @@ class ProductRepository implements ProductRepositoryInterface
     {
         Product::find($id)->update( $data );
     }
+
+    public function updateApproval($data , $id)
+    {
+        Product::find($id)->update($data);
+    }
 }

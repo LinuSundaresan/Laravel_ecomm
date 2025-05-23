@@ -41,6 +41,8 @@
             <ul class="dropdown-menu">
               <li><a class="nav-link" href="{{route('admin.brand.index')}}">Brands</a></li>
               <li><a class="nav-link" href="{{route('admin.products.index')}}">Products</a></li>
+              <li><a class="nav-link" href="{{route('admin.seller-products.index')}}">Vendor Products</a></li>
+              <li><a class="nav-link" href="{{route('admin.seller-pending-products.index')}}">Vendor Pending Products</a></li>
             </ul>
           </li>
 

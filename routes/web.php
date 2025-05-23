@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\ProfileController;
+use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
@@ -90,6 +91,13 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::put('products-variant-item-update/{variantItemId}', [ProductVariantItemController::class, 'update'])->name('products-variant-item.update');
     Route::delete('products-variant-item/{variantItemId}', [ProductVariantItemController::class, 'destroy'])->name('products-variant-item.destroy');
     Route::put('products-variant-item-status', [ProductVariantItemController::class, 'changeStatus'])->name('products-variant-item.change-status');
+
+
+    //seller product routes
+    Route::get('seller-products' , [SellerProductController::class , 'index'])->name('seller-products.index');
+    Route::get('seller-pending-products' , [SellerProductController::class , 'pendingProducts'])->name('seller-pending-products.index');
+    Route::put('change-approve-status' , [SellerProductController::class , 'changeApproveStatus'])->name('change-approve-status');
+
 });
 
 /**Admin Routes */
