@@ -10,6 +10,7 @@ use App\Interfaces\ProductVariantItemRepositoryInterface;
 use App\Interfaces\ProductVariantRepositoryInterface;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VendorProductVariantController extends Controller
 {
@@ -19,6 +20,11 @@ class VendorProductVariantController extends Controller
     public function index( Request $request ,VendorProductVariantDataTable $datatable)
     {
         $product = Product::findOrFail($request->product);
+
+        if($product->vendor_id != Auth::user()->vendor->id){
+            abort(403, 'You are not authorized to access this product');
+        }
+
         return $datatable->render('vendor.product.product-variant.index' , compact('product'));
     }
 
@@ -54,6 +60,11 @@ class VendorProductVariantController extends Controller
     public function edit(string $id)
     {
         $varient = app(ProductVariantRepositoryInterface::class)->getById($id);
+
+        if($varient->product->vendor_id != Auth::user()->vendor->id){
+            abort(403, 'You are not authorized to access this product');
+        }
+
         return view('vendor.product.product-variant.edit', compact(
             'varient'
         ));
@@ -68,6 +79,10 @@ class VendorProductVariantController extends Controller
         $variant = app(ProductVariantRepositoryInterface::class)->getProductByVariant( $id);
         app(ProductVariantRepositoryInterface::class)->update($data , $id);
 
+        if($variant->product->vendor_id != Auth::user()->vendor->id){
+            abort(403, 'You are not authorized to access this product');
+        }
+
         toastr()->success('Product Variant Updated Successfully!');
         return redirect()->route('vendor.products-variant.index', ['product'=>$variant->product_id]);
     }
@@ -77,6 +92,12 @@ class VendorProductVariantController extends Controller
      */
     public function destroy(string $id)
     {
+
+        $variant = app(ProductVariantRepositoryInterface::class)->getProductByVariant( $id);
+        if($variant->product->vendor_id != Auth::user()->vendor->id){
+            abort(403, 'You are not authorized to access this product');
+        }
+
         $productVariantItemCount = app(ProductVariantItemRepositoryInterface::class)->getVariantItemCountByVariant($id);
 
         if($productVariantItemCount > 0)
