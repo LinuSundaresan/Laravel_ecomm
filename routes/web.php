@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\AdminVendorProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
+use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
@@ -97,6 +98,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::get('seller-products' , [SellerProductController::class , 'index'])->name('seller-products.index');
     Route::get('seller-pending-products' , [SellerProductController::class , 'pendingProducts'])->name('seller-pending-products.index');
     Route::put('change-approve-status' , [SellerProductController::class , 'changeApproveStatus'])->name('change-approve-status');
+
+    //Flash sale routes
+    Route::get('flash-sale' , [FlashSaleController::class , 'index'])->name('flash-sale.index');
 
 });
 

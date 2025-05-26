@@ -37,6 +37,10 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!--toaster-->
 
+    <!--select2-->
+    <link rel="stylesheet" href="{{asset('backend/assets/modules/select2/dist/css/select2.min.css')}}">
+    <!--select2-->
+
 </head>
 
 <body>
@@ -102,6 +106,9 @@
   <script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
   <!--datepicker-->
 
+  <!--select2-->
+  <script src="{{ asset('backend/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
+  <!--select2-->
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>

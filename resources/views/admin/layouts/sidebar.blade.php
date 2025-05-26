@@ -41,6 +41,7 @@
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>E-Commerce</span></a>
             <ul class="dropdown-menu">
               <li><a class="nav-link" href="{{route('admin.vendor-profile.index')}}">Vendor Profile</a></li>
+              <li><a class="nav-link" href="{{route('admin.flash-sale.index')}}">Flash Sale</a></li>
             </ul>
           </li>
 
