@@ -21,6 +21,7 @@ class Product extends Model
         'sku',
         'price',
         'status',
+        'is_approved',
         'product_type'
     ];
 

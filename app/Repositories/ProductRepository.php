@@ -35,6 +35,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function updateApproval($data , $id)
     {
-        Product::find($id)->update($data);
+        $product = Product::find($id);
+        $product->update($data);
     }
 }

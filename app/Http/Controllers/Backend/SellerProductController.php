@@ -23,7 +23,7 @@ class SellerProductController extends Controller
 
     public function changeApproveStatus(Request $request)
     {
-        app(ProductRepositoryInterface::class)->update(['is_approved'=>$request->value ], $request->id);
+        app(ProductRepositoryInterface::class)->updateApproval(['is_approved'=>$request->value ], $request->id);
         return response(['message' => 'Product Approve status changed']);
     }
 }
