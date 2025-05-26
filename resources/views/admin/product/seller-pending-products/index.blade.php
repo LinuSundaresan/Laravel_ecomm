@@ -77,8 +77,8 @@
                         'id' : product_id
                     },
                     'success': function (data) {
-                        console.log(data);
                         toastr.success(data.message);
+                        window.location.reload();
                     },
                     'error': function(xhr, status, error) {
                         console.log(error);

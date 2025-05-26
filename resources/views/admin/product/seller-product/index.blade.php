@@ -65,6 +65,28 @@
             })
 
 
+            $('body').on('change', '.is_approve', function(){
+                let value = $(this).val();
+                let product_id = $(this).data('id');
+
+                $.ajax({
+                    'url': "{{ route('admin.change-approve-status') }}",
+                    'method': 'PUT',
+                    'data': {
+                        'value' : value,
+                        'id' : product_id
+                    },
+                    'success': function (data) {
+                        toastr.success(data.message);
+                        window.location.reload();
+                    },
+                    'error': function(xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            })
+
+
         });
     </script>
 @endpush

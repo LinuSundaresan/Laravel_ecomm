@@ -88,7 +88,12 @@ class ProductController extends Controller
         $product = app(ProductRepositoryInterface::class)->getById($id);
         $path = $this->updateImage($request, 'thumb_image', 'uploads/products', $product->thumb_image);
 
-        app(ProductRepositoryInterface::class)->update(array_merge($request->validated(),['thumb_image'=>empty(!$path)? $path: $product->thumb_image] ), $id);
+        $data = collect($request->validated())
+            ->except(['vendor_id', 'is_approved'])
+            ->toArray();
+
+        app(ProductRepositoryInterface::class)->update(array_merge($data, ['thumb_image' => !empty($path) ? $path : $product->thumb_image]),
+        $id);
 
         toastr()->success('Product Update Successfully!');
         return redirect()->route('admin.products.index');
