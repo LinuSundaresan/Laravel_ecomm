@@ -13,6 +13,16 @@ class ProductRepository implements ProductRepositoryInterface
         Product::create($data);
     }
 
+    public function getAll()
+    {
+        return Product::all();
+    }
+
+    public function getActiveProducts()
+    {
+        return Product::where('is_approved', 1)->where('status', 1)->orderBy('id', 'DESC')->get();
+    }
+
     public function getById($id)
     {
         return Product::findOrFail($id);

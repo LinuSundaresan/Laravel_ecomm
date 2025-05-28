@@ -6,6 +6,8 @@ use App\Interfaces\AdminVendorProfileRepositoryInterface;
 use App\Interfaces\BrandRepositoryInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ChildCategoryRepositoryInterface;
+use App\Interfaces\FlashSaleItemRepositoryInterface;
+use App\Interfaces\FlashSaleRepositoryInterface;
 use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\ProductVariantItemRepositoryInterface;
@@ -20,6 +22,8 @@ use App\Repositories\AdminVendorProfileRepository;
 use App\Repositories\BrandRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ChildCategoryRepository;
+use App\Repositories\FlashSaleItemRepository;
+use App\Repositories\FlashSaleRepository;
 use App\Repositories\ProductImageGalleryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProductVariantItemRepository;
@@ -49,6 +53,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductVariantRepositoryInterface::class, ProductVariantRepository::class );
         $this->app->bind(ProductVariantItemRepositoryInterface::class , ProductVariantItemRepository::class);
         $this->app->bind(VendorShopProfileRepositoryInterface::class , VendorShopProfileRepository::class);
+        $this->app->bind(FlashSaleRepositoryInterface::class , FlashSaleRepository::class);
+        $this->app->bind(FlashSaleItemRepositoryInterface::class , FlashSaleItemRepository::class);
 
     }
 

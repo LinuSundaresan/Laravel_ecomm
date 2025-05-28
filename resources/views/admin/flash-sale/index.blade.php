@@ -23,12 +23,17 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <input type="text" class="form-control datepicker" name="sale_end_date"  value="">
+                    <form action="{{ route('admin.flash-sale.update') }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control datepicker" name="end_date" value="
+                                {{ $flashSaleDate->end_date }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
+                    </form>
                 </div>
               </div>
 
@@ -52,12 +57,48 @@
               <div class="card-body">
                 <div class="table-responsive">
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <select name="" id="" class="form-control select2">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <form action="{{ route('admin.flash-sale.add-product') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label>Select Product</label>
+                                <select name="product_id" id="product_id" class="form-control select2">
+                                    <option value="">--Select Products--</option>
+
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Show at Home ?</label>
+                                        <select name="show_at_home" id="show_at_home" class="form-control ">
+                                            <option value="">--Select --</option>
+
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <select name="status" id="status" class="form-control ">
+                                            <option value="">--Select --</option>
+
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
                     </div>
                 </div>
               </div>
@@ -106,7 +147,7 @@
                 let product_id = $(this).data('id');
 
                 $.ajax({
-                    'url': "{{ route('admin.product.update-status') }}",
+                    'url': "{{ route('admin.flash-sale-status') }}",
                     'method': 'PUT',
                     'data': {
                         'status' : isChecked,
@@ -122,7 +163,29 @@
                 })
             })
 
+            $('body').on('click', '.change-at-home-status', function(){
+                let isChecked = $(this).is(':checked');
+                let id = $(this).data('id');
+
+                $.ajax({
+                    'url': "{{ route('admin.flash-sale.show-at-home.change-status') }}",
+                    'method': 'PUT',
+                    'data': {
+                        'status' : isChecked,
+                        'id' : id
+                    },
+                    'success': function (data) {
+                        console.log(data);
+                        toastr.success(data.message);
+                    },
+                    'error': function(xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            })
+
 
         });
+
     </script>
 @endpush
