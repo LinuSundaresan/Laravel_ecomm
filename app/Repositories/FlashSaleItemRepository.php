@@ -14,6 +14,11 @@ class FlashSaleItemRepository implements FlashSaleItemRepositoryInterface
         FlashSaleItem::updateOrCreate($data);
     }
 
+    public function getFlashSaleHomeItems()
+    {
+        return FlashSaleItem::where('status', 1)->where('show_at_home' , 1)->get();
+    }
+
     public function updateInHomeStatus(array $data, $id)
     {
         FlashSaleItem::find($id)->update($data);

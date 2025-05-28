@@ -16,6 +16,9 @@ class Product extends Model
         'child_category_id',
         'brand_id',
         'qty',
+        'offer_price',
+        'offer_start_date',
+        'offer_end_date',
         'short_description',
         'long_description',
         'sku',
@@ -38,5 +41,10 @@ class Product extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
