@@ -28,6 +28,11 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::findOrFail($id);
     }
 
+    public function getBySlug($slug)
+    {
+        return Product::with(['vendor', 'category' , 'variants' , 'galleryImages', 'brand'])->where('slug', $slug)->where('status', 1)->first();
+    }
+
     public function update($data , $id)
     {
         Product::findOrFail($id)->update($data);

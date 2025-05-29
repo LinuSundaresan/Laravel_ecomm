@@ -21,6 +21,7 @@ class Product extends Model
         'offer_end_date',
         'short_description',
         'long_description',
+        'video_link',
         'sku',
         'price',
         'status',
@@ -46,5 +47,10 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 }

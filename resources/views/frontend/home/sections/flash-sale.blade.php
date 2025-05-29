@@ -22,7 +22,7 @@
                                 -{{ calculateDiscountPercentage($flashSaleHomeItem->product->price , $flashSaleHomeItem->product->offer_price) }}%
                             </span>
                         @endif
-                        <a class="wsus__pro_link" href="product_details.html">
+                        <a class="wsus__pro_link" href="{{ route('product-detail' , $flashSaleHomeItem->product->slug) }}">
                             <img src="{{asset($flashSaleHomeItem->product->thumb_image)}}" alt="product" class="img-fluid w-100 img_1" />
                             <img src="
                             @if(isset($flashSaleHomeItem->product->galleryImages[0]->image))
@@ -48,7 +48,7 @@
                                 <i class="fas fa-star-half-alt"></i>
                                 <span>(133 review)</span>
                             </p>
-                            <a class="wsus__pro_name" href="#">{{ $flashSaleHomeItem->product->name }}</a>
+                            <a class="wsus__pro_name" href="{{ route('product-detail' , $flashSaleHomeItem->product->slug) }}">{{ $flashSaleHomeItem->product->name }}</a>
 
                             @if(checkDiscount($flashSaleHomeItem->product))
                                 <p class="wsus__price">${{ $flashSaleHomeItem->product->offer_price }} <del>${{ $flashSaleHomeItem->product->price }}</del></p>

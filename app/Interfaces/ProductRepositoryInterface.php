@@ -8,6 +8,7 @@ interface ProductRepositoryInterface
     public function getAll();
     public function getActiveProducts();
     public function getById($id);
+    public function getBySlug($slug);
     public function update($data , $id);
     public function delete($id);
     public function updateStatus($data , $id);
