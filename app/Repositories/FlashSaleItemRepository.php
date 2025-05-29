@@ -19,6 +19,11 @@ class FlashSaleItemRepository implements FlashSaleItemRepositoryInterface
         return FlashSaleItem::where('status', 1)->where('show_at_home' , 1)->get();
     }
 
+    public function getFlashSalePageItems()
+    {
+        return FlashSaleItem::where('status', 1)->orderBy('id', 'DESC')->paginate(20);
+    }
+
     public function updateInHomeStatus(array $data, $id)
     {
         FlashSaleItem::find($id)->update($data);

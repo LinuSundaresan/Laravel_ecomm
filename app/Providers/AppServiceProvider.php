@@ -32,6 +32,7 @@ use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VendorShopProfileRepository;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -65,5 +66,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Product::observe(ProductObserver::class);
+        Paginator::useBootstrap();
     }
 }
