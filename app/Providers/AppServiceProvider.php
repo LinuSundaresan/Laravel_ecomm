@@ -8,6 +8,7 @@ use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ChildCategoryRepositoryInterface;
 use App\Interfaces\FlashSaleItemRepositoryInterface;
 use App\Interfaces\FlashSaleRepositoryInterface;
+use App\Interfaces\GeneralSettingRepositoryInterface;
 use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\ProductVariantItemRepositoryInterface;
@@ -24,6 +25,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\ChildCategoryRepository;
 use App\Repositories\FlashSaleItemRepository;
 use App\Repositories\FlashSaleRepository;
+use App\Repositories\GeneralSettingRepository;
 use App\Repositories\ProductImageGalleryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProductVariantItemRepository;
@@ -33,6 +35,7 @@ use App\Repositories\SubCategoryRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VendorShopProfileRepository;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -56,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(VendorShopProfileRepositoryInterface::class , VendorShopProfileRepository::class);
         $this->app->bind(FlashSaleRepositoryInterface::class , FlashSaleRepository::class);
         $this->app->bind(FlashSaleItemRepositoryInterface::class , FlashSaleItemRepository::class);
+        $this->app->bind(GeneralSettingRepositoryInterface::class , GeneralSettingRepository::class);
 
     }
 
@@ -67,5 +71,10 @@ class AppServiceProvider extends ServiceProvider
         //
         Product::observe(ProductObserver::class);
         Paginator::useBootstrap();
+        $generalSetting = app(GeneralSettingRepositoryInterface::class)->getGeneralSetting();
+
+        View::composer('*', function($view) use ($generalSetting){
+            $view->with('settings', $generalSetting);
+        });
     }
 }

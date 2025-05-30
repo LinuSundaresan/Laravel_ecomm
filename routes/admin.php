@@ -88,6 +88,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
 
     //Settings routes
     Route::get('settings', [SettingsController::class , 'index'])->name('settings.index');
+    Route::put('general-setting-update', [SettingsController::class , 'generalSettingUpdate'])->name('general-settings-update');
 
 });
 
