@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
+use App\Http\Controllers\Frontend\UserAddressContoller;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -43,6 +44,9 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
     Route::get('profile' , [UserProfileController::class, 'index'])->name('profile');
     Route::put('profile' , [UserProfileController::class, 'updateProfile'])->name('profile.update');
     Route::post('profile' , [UserProfileController::class, 'updatePassword'])->name('profile.update.password');
+
+    /**User address route */
+    Route::resource('address', UserAddressContoller::class);
 });
 
 // Route::get('vendor/dashboard' , [VendorController::class, 'dashboard'])->middleware('auth', 'role:vendor')->name('vendor.dashboard');
