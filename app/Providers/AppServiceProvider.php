@@ -6,6 +6,7 @@ use App\Interfaces\AdminVendorProfileRepositoryInterface;
 use App\Interfaces\BrandRepositoryInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ChildCategoryRepositoryInterface;
+use App\Interfaces\CoupenRepositoryInterface;
 use App\Interfaces\FlashSaleItemRepositoryInterface;
 use App\Interfaces\FlashSaleRepositoryInterface;
 use App\Interfaces\GeneralSettingRepositoryInterface;
@@ -23,6 +24,7 @@ use App\Repositories\AdminVendorProfileRepository;
 use App\Repositories\BrandRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ChildCategoryRepository;
+use App\Repositories\CoupenRepository;
 use App\Repositories\FlashSaleItemRepository;
 use App\Repositories\FlashSaleRepository;
 use App\Repositories\GeneralSettingRepository;
@@ -60,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FlashSaleRepositoryInterface::class , FlashSaleRepository::class);
         $this->app->bind(FlashSaleItemRepositoryInterface::class , FlashSaleItemRepository::class);
         $this->app->bind(GeneralSettingRepositoryInterface::class , GeneralSettingRepository::class);
+        $this->app->bind(CoupenRepositoryInterface::class , CoupenRepository::class);
 
     }
 

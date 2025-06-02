@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\AdminVendorProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
+use App\Http\Controllers\Backend\CoupenController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
@@ -89,6 +90,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     //Settings routes
     Route::get('settings', [SettingsController::class , 'index'])->name('settings.index');
     Route::put('general-setting-update', [SettingsController::class , 'generalSettingUpdate'])->name('general-settings-update');
+
+    //Coupen Routes
+    Route::put('coupens/update-status', [CoupenController::class, 'updateStatus'])->name('coupens.update-status');
+    Route::resource('coupens', CoupenController::class);
 
 });
 
