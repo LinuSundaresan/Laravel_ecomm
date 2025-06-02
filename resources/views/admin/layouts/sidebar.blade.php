@@ -42,6 +42,7 @@
             <ul class="dropdown-menu">
               <li><a class="nav-link" href="{{route('admin.vendor-profile.index')}}">Vendor Profile</a></li>
               <li><a class="nav-link" href="{{route('admin.flash-sale.index')}}">Flash Sale</a></li>
+              <li><a class="nav-link" href="{{route('admin.flash-sale.index')}}">Coupens</a></li>
             </ul>
           </li>
 

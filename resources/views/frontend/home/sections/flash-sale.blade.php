@@ -51,9 +51,9 @@
                             <a class="wsus__pro_name" href="{{ route('product-detail' , $flashSaleHomeItem->product->slug) }}">{{ $flashSaleHomeItem->product->name }}</a>
 
                             @if(checkDiscount($flashSaleHomeItem->product))
-                                <p class="wsus__price">${{ $flashSaleHomeItem->product->offer_price }} <del>${{ $flashSaleHomeItem->product->price }}</del></p>
+                                <p class="wsus__price">{{ $settings->currency_icon }} {{ $flashSaleHomeItem->product->offer_price }} <del>{{ $settings->currency_icon }} {{ $flashSaleHomeItem->product->price }}</del></p>
                             @else
-                            <p class="wsus__price">${{ $flashSaleHomeItem->product->price }} </p>
+                            <p class="wsus__price">{{ $settings->currency_icon }} {{ $flashSaleHomeItem->product->price }} </p>
                             @endif
 
 

@@ -82,7 +82,7 @@
                                             -{{ calculateDiscountPercentage($flashSalePageItem->product->price , $flashSalePageItem->product->offer_price) }}%
                                         </span>
                                     @endif
-                                    <a class="wsus__pro_link" href="product_details.html">
+                                    <a class="wsus__pro_link" href="{{ route('product-detail', $flashSalePageItem->product->slug) }}">
                                         <img src="{{asset($flashSalePageItem->product->thumb_image)}}" alt="product" class="img-fluid w-100 img_1" />
                                         <img src="
                                         @if(isset($flashSalePageItem->product->galleryImages[0]->image))
@@ -111,9 +111,9 @@
                                         <a class="wsus__pro_name" href="#">{{ $flashSalePageItem->product->name }}</a>
 
                                         @if(checkDiscount($flashSalePageItem->product))
-                                            <p class="wsus__price">${{ $flashSalePageItem->product->offer_price }} <del>${{ $flashSalePageItem->product->price }}</del></p>
+                                            <p class="wsus__price">{{ $settings->currency_icon }} {{ $flashSalePageItem->product->offer_price }} <del>{{ $settings->currency_icon }} {{ $flashSalePageItem->product->price }}</del></p>
                                         @else
-                                        <p class="wsus__price">${{ $flashSalePageItem->product->price }} </p>
+                                        <p class="wsus__price">{{ $settings->currency_icon }} {{ $flashSalePageItem->product->price }} </p>
                                         @endif
 
 
