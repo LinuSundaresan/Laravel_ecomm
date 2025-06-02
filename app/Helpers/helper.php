@@ -1,5 +1,15 @@
 <?php
 
+function setActive(array $routes, $activeClass = 'active')
+{
+    foreach ($routes as $route) {
+        if (request()->routeIs($route)) {
+            return $activeClass;
+        }
+    }
+    return '';
+}
+
 /** check the product have discount or not */
 function checkDiscount($product)
 {

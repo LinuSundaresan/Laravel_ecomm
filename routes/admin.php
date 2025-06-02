@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SettingsController;
+use App\Http\Controllers\Backend\ShippingRuleController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 
@@ -94,6 +95,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     //Coupen Routes
     Route::put('coupens/update-status', [CoupenController::class, 'updateStatus'])->name('coupens.update-status');
     Route::resource('coupens', CoupenController::class);
+
+    //Shipping Rules Routes
+    Route::put('shipping-rule/update-status', [ShippingRuleController::class, 'updateStatus'])->name('shipping-rule.update-status');
+    Route::resource('shipping-rule', ShippingRuleController::class);
 
 });
 

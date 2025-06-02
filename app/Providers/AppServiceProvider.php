@@ -14,6 +14,7 @@ use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\ProductVariantItemRepositoryInterface;
 use App\Interfaces\ProductVariantRepositoryInterface;
+use App\Interfaces\ShippingruleRepositoryInterface;
 use App\Interfaces\SliderRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
@@ -32,6 +33,7 @@ use App\Repositories\ProductImageGalleryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProductVariantItemRepository;
 use App\Repositories\ProductVariantRepository;
+use App\Repositories\ShippingRuleRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
 use App\Repositories\UserRepository;
@@ -63,7 +65,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FlashSaleItemRepositoryInterface::class , FlashSaleItemRepository::class);
         $this->app->bind(GeneralSettingRepositoryInterface::class , GeneralSettingRepository::class);
         $this->app->bind(CoupenRepositoryInterface::class , CoupenRepository::class);
-
+        $this->app->bind(ShippingruleRepositoryInterface::class , ShippingRuleRepository::class);
     }
 
     /**
