@@ -1,5 +1,9 @@
 @extends('vendor.layouts.master')
 
+@section('title')
+    {{ $settings->site_name }} | All Variant Item
+@endsection
+
 @section('content')
 
 <section id="wsus__dashboard">

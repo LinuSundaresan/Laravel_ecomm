@@ -1,5 +1,9 @@
 @extends('frontend.dashboard.layouts.master')
 
+@section('title')
+    {{ $settings->site_name }} | Add Address
+@endsection
+
 @section('content')
 
 <section id="wsus__dashboard">
