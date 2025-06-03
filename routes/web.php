@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\VendorProductVariantController;
 use App\Http\Controllers\Backend\VendorProductVariantItemController;
 use App\Http\Controllers\Backend\VendorProfileController;
 use App\Http\Controllers\Backend\VendorShopProfileController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserProfileController;
@@ -24,6 +25,8 @@ Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flash-sal
 Route::get('product-detail/{slug}', [FrontendProductController::class, 'showProduct'])->name('product-detail');
 /**Product Details */
 
+/**cart routes */
+Route::post('add-to-cart' , [CartController::class, 'addToCart'])->name('add-to-cart');
 
 
 Route::middleware('auth')->group(function () {
@@ -47,6 +50,9 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
 
     /**User address route */
     Route::resource('address', UserAddressContoller::class);
+
+
+
 });
 
 // Route::get('vendor/dashboard' , [VendorController::class, 'dashboard'])->middleware('auth', 'role:vendor')->name('vendor.dashboard');
