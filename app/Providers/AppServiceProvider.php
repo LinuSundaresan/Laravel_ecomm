@@ -17,6 +17,7 @@ use App\Interfaces\ProductVariantRepositoryInterface;
 use App\Interfaces\ShippingruleRepositoryInterface;
 use App\Interfaces\SliderRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
+use App\Interfaces\UserAddressRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\VendorShopProfileRepositoryInterface;
 use App\Models\Product;
@@ -36,6 +37,7 @@ use App\Repositories\ProductVariantRepository;
 use App\Repositories\ShippingRuleRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
+use App\Repositories\UserAddressRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VendorShopProfileRepository;
 use Illuminate\Pagination\Paginator;
@@ -66,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(GeneralSettingRepositoryInterface::class , GeneralSettingRepository::class);
         $this->app->bind(CoupenRepositoryInterface::class , CoupenRepository::class);
         $this->app->bind(ShippingruleRepositoryInterface::class , ShippingRuleRepository::class);
+        $this->app->bind(UserAddressRepositoryInterface::class , UserAddressRepository::class);
     }
 
     /**
