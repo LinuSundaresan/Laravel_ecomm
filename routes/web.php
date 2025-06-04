@@ -27,6 +27,8 @@ Route::get('product-detail/{slug}', [FrontendProductController::class, 'showProd
 
 /**cart routes */
 Route::post('add-to-cart' , [CartController::class, 'addToCart'])->name('add-to-cart');
+Route::get('cart-details' , [CartController::class, 'cartDetails'])->name('cart-details');
+Route::post('cart/update-quantity' , [CartController::class, 'updateProductQty'])->name('cart.update-quantity');
 
 
 Route::middleware('auth')->group(function () {

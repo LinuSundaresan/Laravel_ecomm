@@ -153,7 +153,7 @@
             @foreach($errors->all() as $error)
                     toastr.error("{{$error}}");
             @endforeach
-        @endif;
+        @endif
     </script>
 
     @stack('scripts')

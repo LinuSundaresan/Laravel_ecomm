@@ -30,20 +30,21 @@ class CartController extends Controller
         }
 
         /**check discount */
-        $productTotalAmount = 0;
+        $productPrice = 0;
         if(checkDiscount($product)){
-            $productTotalAmount += ($product->offer_price + $variantTotalAmount);
+            $productPrice += $product->offer_price;
         } else {
-            $productTotalAmount += ($product->price + $variantTotalAmount);
+            $productPrice += $product->price;
         }
 
         $cartData = [];
         $cartData['id'] = $product->id;
         $cartData['name'] = $product->name;
         $cartData['qty'] = $request->qty;
-        $cartData['price'] = $productTotalAmount ;
+        $cartData['price'] = $productPrice ;
         $cartData['weight'] = 10;
         $cartData['options']['variants'] = $variants;
+        $cartData['options']['variants_total'] = $variantTotalAmount;
         $cartData['options']['image'] = $product->thumb_image;
         $cartData['options']['slug'] = $product->slug;
 
@@ -52,5 +53,24 @@ class CartController extends Controller
         Log::info(Cart::content());
 
         return response(['status'=>'success', 'message' => 'Added to cart successfully ']);
+    }
+
+
+    /**Cart Details */
+    public function cartDetails()
+    {
+        $cartItems = Cart::content();
+        return view('frontend.pages.cart-details' , compact(
+            'cartItems'
+        ));
+    }
+
+    /***Update Product Qty */
+
+    public function updateProductQty(Request $request)
+    {
+        Cart::update($request->rowId, $request->quantity);
+
+        return response(['status'=>'success', 'message' => 'Product quantity updated']);
     }
 }
