@@ -70,7 +70,59 @@ class CartController extends Controller
     public function updateProductQty(Request $request)
     {
         Cart::update($request->rowId, $request->quantity);
+        $product_total = $this->getProductTotal($request->rowId);
+        return response(['status'=>'success', 'message' => 'Product quantity updated', 'product_total'=>$product_total]);
+    }
 
-        return response(['status'=>'success', 'message' => 'Product quantity updated']);
+    /***Clear cart prducts */
+    public function clearCart()
+    {
+        Cart::destroy();
+        return response(['status'=>'success', 'message' => 'Cart cleared succesfully']);
+    }
+
+    /***Remove Product from cart */
+    public function removeProduct($rawId)
+    {
+        Cart::remove($rawId);
+        return redirect()->back();
+    }
+
+    /*** Get Cart Count */
+    public function getCartCount()
+    {
+        return Cart::content()->count();
+    }
+
+
+    /***get all cart products */
+    public function getCartProducts()
+    {
+        return Cart::content();
+    }
+
+    /***remove sidebar product ajax */
+    public function removeSidebarProduct(Request $request)
+    {
+        Cart::remove($request->rowId);
+        return response(['status'=>'success', 'message' => 'Product removed succesfully']);
+    }
+
+    /***get Product Total */
+    public function getProductTotal($rowId)
+    {
+        $product = Cart::get($rowId);
+        $total = ($product->price + $product->options->variants_total) * $product->qty;
+        return $total;
+    }
+
+    /***Get Cart Total */
+    public function CartTotal()
+    {
+        $total = 0;
+        foreach(Cart::content() as $product){
+            $total += $this->getProductTotal($product->rowId);
+        }
+        return $total;
     }
 }

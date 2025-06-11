@@ -63,7 +63,7 @@
                                         </th>
 
                                         <th class="wsus__pro_icon">
-                                            <a href="#" class="common_btn">clear cart</a>
+                                            <a href="#" class="common_btn clear_cart">clear cart</a>
                                         </th>
                                     </tr>
 
@@ -86,23 +86,30 @@
                                             </td>
 
                                             <td class="wsus__pro_tk">
-                                                <h6>{{ $settings->currency_icon.' '.$item->price + $item->options->variants_total }}</h6>
+                                                <h6 id="{{ $item->rowId }}">{{ $settings->currency_icon.' '.($item->price + $item->options->variants_total) * $item->qty }}</h6>
                                             </td>
 
                                             <td class="wsus__pro_select">
                                                 <div class="product_qty_wrapper">
                                                     <button class="btn btn-danger product-decrement">-</button>
-                                                    <input class="product_qty" type="text" data-rowid={{ $item->rowId }} min="1" max="100" value="{{ $item->qty }}" />
+                                                    <input class="product_qty" type="text" data-rowid={{ $item->rowId }} min="1" max="100" value="{{ $item->qty }}" readonly/>
                                                     <button class="btn btn-success product-increment">+</button>
                                                 </div>
                                             </td>
 
                                             <td class="wsus__pro_icon">
-                                                <a href="#"><i class="far fa-times"></i></a>
+                                                <a href="{{ route('cart.remove-product', $item->rowId) }}"><i class="far fa-times"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
 
+                                    @if(count($cartItems)==0)
+
+                                        <tr>
+                                            <td colspan="6">Cart is empty</td>
+                                        </tr>
+
+                                    @endif
 
                                 </tbody>
                             </table>
@@ -192,6 +199,9 @@
                 },
                 success : function(data){
                     if(data.status=='success'){
+                        let productId = '#'+rowId;
+                        let totalAmount = "{{ $settings->currency_icon }}"+data.product_total;
+                        $(productId).text(totalAmount);
                         toastr.success(data.message);
                     }
                 },
@@ -205,7 +215,12 @@
             e.preventDefault();
             let input = $(this).siblings('.product_qty');
             let rowId = input.data('rowid');
-            let quantity = parseInt(input.val())-1;
+            let quantity = parseInt(input.val());
+
+            if(quantity>1)
+            {
+                quantity--;
+            }
             input.val(quantity);
 
             $.ajax({
@@ -217,6 +232,9 @@
                 },
                 success : function(data){
                     if(data.status=='success'){
+                        let productId = '#'+rowId;
+                        let totalAmount = "{{ $settings->currency_icon }}"+data.product_total;
+                        $(productId).text(totalAmount);
                         toastr.success(data.message);
                     }
                 },
@@ -224,6 +242,38 @@
                     console.log(err);
                 }
             })
+        });
+
+
+        $('.clear_cart').on('click', function(e){
+            e.preventDefault();
+            var url = "{{ route('clear.cart')}}";
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action will clear your cart",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, clear it!"
+                }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        'type': 'get',
+                        'url' : url,
+                        'success' : function (data) {
+                            window.location.reload();
+                            toastr.success(data.message);
+                        },
+                        'error' : function (xhr, status, error) {
+                            console.log(error);
+                        }
+                    })
+
+
+                }
+            });
         });
     })
 </script>
