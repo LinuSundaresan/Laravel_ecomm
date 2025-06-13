@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApplyCoupenRequest;
+use App\Interfaces\CoupenRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\ProductVariantItemRepositoryInterface;
 use Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -142,5 +145,61 @@ class CartController extends Controller
             $total += $this->getProductTotal($product->rowId);
         }
         return $total;
+    }
+
+    /***Apply coupen */
+    public function applyCoupen(ApplyCoupenRequest $request)
+    {
+        if($request->coupen_code == null){
+            return response(['status'=> 'error', 'message' => 'Coupen Field is required']);
+        }
+
+        $coupen = app(CoupenRepositoryInterface::class)->getActiveCoupenByCode($request->coupen_code);
+
+        if($coupen == null) {
+            return response(['status'=> 'error', 'message' => 'Invalid Coupen']);
+        } elseif($coupen->start_date > date('Y-m-d')) {
+            return response(['status'=> 'error', 'message' => 'Invalid Coupen']);
+        } elseif($coupen->end_date < date('Y-m-d')) {
+            return response(['status'=> 'error', 'message' => 'Coupen has been expired']);
+        } elseif($coupen->total_used >= $coupen->max_use){
+            return response(['status'=> 'error', 'message' => 'You can not apply this coupen']);
+        }
+
+        if($coupen->discount_type == 'amount'){
+            Session::put('coupen', [
+                'coupen_name' => $coupen->name,
+                'coupen_code' => $coupen->code,
+                'discount_type' => 'amount',
+                'discount' => $coupen->discount,
+            ]);
+        } else if($coupen->discount_type == 'percent'){
+            Session::put('coupen', [
+                'coupen_name' => $coupen->name,
+                'coupen_code' => $coupen->code,
+                'discount_type' => 'percent',
+                'discount' => $coupen->discount,
+            ]);
+        }
+
+        return response(['status' => 'success', 'message'=> 'Coupen applied successfully']);
+    }
+
+    /***Calculate Coupen Discount */
+    public function coupenCalculation()
+    {
+        if(Session::has('coupen')){
+            $coupen = Session::get('coupen');
+            $subTotal = getCartTotal();
+            if($coupen['discount_type'] == 'amount'){
+                $total = $subTotal-$coupen['discount'];
+                return response(['status'=>'success' , 'cart_total' => $total , 'discount'=>$coupen['discount']]);
+            } else if($coupen['discount_type'] == 'percent'){
+                $discount = $subTotal-(($subTotal*$coupen['discount'])/100);
+                $total = $subTotal-$discount;
+                return response(['status'=>'success' , 'cart_total' => $total , 'discount'=>$discount]);
+            }
+
+        }
     }
 }

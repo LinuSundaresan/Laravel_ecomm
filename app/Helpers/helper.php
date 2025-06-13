@@ -1,6 +1,6 @@
 <?php
 
-use Cart;
+// use Cart;
 
 function setActive(array $routes, $activeClass = 'active')
 {

@@ -18,6 +18,11 @@ class CoupenRepository implements CoupenRepositoryInterface
         return Coupen::find($id);
     }
 
+    public function getActiveCoupenByCode($code)
+    {
+        return Coupen::where(['code' => $code , 'status' => 1])->first();
+    }
+
     public function update($data , $id)
     {
         return Coupen::findOrFail($id)->update($data);

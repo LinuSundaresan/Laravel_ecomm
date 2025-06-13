@@ -35,6 +35,8 @@ Route::get('cart-count' , [CartController::class, 'getCartCount'])->name('cart-c
 Route::get('cart-products' , [CartController::class, 'getCartProducts'])->name('cart-products');
 Route::post('cart/remove-sidebar-products' , [CartController::class, 'removeSidebarProduct'])->name('cart.remove-sidebar-products');
 Route::get('cart/sidebar-products-total' , [CartController::class, 'CartTotal'])->name('cart.sidebar-products-total');
+Route::get('apply-coupen' , [CartController::class, 'applyCoupen'])->name('apply-coupen');
+Route::get('coupen-calculation' , [CartController::class, 'coupenCalculation'])->name('coupen-calculation');
 
 
 Route::middleware('auth')->group(function () {
