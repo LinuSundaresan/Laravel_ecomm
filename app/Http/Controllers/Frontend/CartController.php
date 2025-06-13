@@ -17,6 +17,13 @@ class CartController extends Controller
     {
         $product = app(ProductRepositoryInterface::class)->getById($request->product_id);
 
+        //check product quantity
+        if($product->qty == 0) {
+            return response(['status'=>'error', 'message' => 'Product Stock Out']);
+        } else if($product->qty < $request->qty){
+            return response(['status'=>'error', 'message' => 'Quantity not available in our stock']);
+        }
+
         $variants = [];
         $variantTotalAmount = 0;
 
@@ -69,6 +76,16 @@ class CartController extends Controller
 
     public function updateProductQty(Request $request)
     {
+        $product_id = Cart::get($request->rowId)->id;
+        $product = app(ProductRepositoryInterface::class)->getById($product_id);
+
+        //check product quantity
+        if($product->qty == 0) {
+            return response(['status'=>'error', 'message' => 'Product Stock Out']);
+        } else if($product->qty < $request->qty){
+            return response(['status'=>'error', 'message' => 'Quantity not available in our stock']);
+        }
+
         Cart::update($request->rowId, $request->quantity);
         $product_total = $this->getProductTotal($request->rowId);
         return response(['status'=>'success', 'message' => 'Product quantity updated', 'product_total'=>$product_total]);
@@ -85,6 +102,7 @@ class CartController extends Controller
     public function removeProduct($rawId)
     {
         Cart::remove($rawId);
+        toastr('Product Removed Succesfully!', 'success');
         return redirect()->back();
     }
 

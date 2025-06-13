@@ -65,6 +65,9 @@
                     <div class="wsus__cart_text">
                         <a class="wsus__cart_title" href="{{ route('product-detail', $item->options->slug) }}">{{ $item->name }}</a>
                         <p>{{ $settings->currency_icon }} {{ $item->price }}</p>
+
+                        <small>Variants total : {{ $settings->currency_icon }} {{ $item->options->variants_total }}</small>
+                        <small>Quantity :  {{ $item->qty }}</small>
                     </div>
                 </li>
             @endforeach
@@ -77,7 +80,7 @@
         </ul>
 
         <div class="mini_cart_action {{ Cart::content()->count() == 0 ? 'd-none' : '' }}">
-            <h5>sub total <span id="mini_cart_subtotal">$3540</span></h5>
+            <h5>sub total <span id="mini_cart_subtotal">{{ $settings->currency_icon }} {{ getCartTotal() }}</span></h5>
             <div class="wsus__minicart_btn_area">
                 <a class="common_btn" href="{{ route('cart-details') }}">view cart</a>
                 <a class="common_btn" href="check_out.html">checkout</a>

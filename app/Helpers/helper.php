@@ -1,5 +1,7 @@
 <?php
 
+use Cart;
+
 function setActive(array $routes, $activeClass = 'active')
 {
     foreach ($routes as $route) {
@@ -55,4 +57,14 @@ function productType($type): string
             return '';
             break;
     }
+}
+
+/***Get Total Cart Amount */
+function getCartTotal()
+{
+    $total = 0;
+    foreach(Cart::content() as $product){
+        $total += ($product->price + $product->options->variants_total) * $product->qty;
+    }
+    return $total;
 }

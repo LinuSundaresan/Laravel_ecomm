@@ -16,12 +16,12 @@ class FlashSaleItemRepository implements FlashSaleItemRepositoryInterface
 
     public function getFlashSaleHomeItems()
     {
-        return FlashSaleItem::where('status', 1)->where('show_at_home' , 1)->get();
+        return FlashSaleItem::where('status', 1)->where('show_at_home' , 1)->orderBy('id', 'ASC')->get();
     }
 
     public function getFlashSalePageItems()
     {
-        return FlashSaleItem::where('status', 1)->orderBy('id', 'DESC')->paginate(20);
+        return FlashSaleItem::where('status', 1)->orderBy('id', 'ASC')->paginate(20);
     }
 
     public function updateInHomeStatus(array $data, $id)

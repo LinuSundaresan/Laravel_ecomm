@@ -211,7 +211,13 @@
                 <div class="col-xl-5 col-md-7 col-lg-7">
                     <div class="wsus__pro_details_text">
                         <a class="title" href="#">{{ $product->name }}</a>
-                        <p class="wsus__stock_area"><span class="in_stock">in stock</span> ({{ $product->qty }} item)</p>
+                        @if($product->qty>0)
+                            <p class="wsus__stock_area"><span class="in_stock">in stock</span> ({{ $product->qty }} item)</p>
+                        @else
+                            <p class="wsus__stock_area"><span class="in_stock">out of stock</span></p>
+                        @endif
+
+
                         @if(checkDiscount($product))
                             <h4>${{ $product->offer_price }} <del>${{ $product->price }}</del></h4>
                         @else
@@ -231,18 +237,24 @@
 
                             <div class="wsus__selectbox">
                                 <div class="row">
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+
                                     @foreach ($product->variants as $variant)
 
-                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    @if($variant->status != 0)
+
                                         <div class="col-xl-6 col-sm-6">
                                             <h5 class="mb-2">{{ $variant->name }}</h5>
                                             <select class="select_2" name="variants[]">
                                                 <option value="">--select--</option>
                                                 @foreach ($variant->productVariantItems as $variantItem)
+                                                    @if($variantItem->status != 0)
                                                     <option value="{{ $variantItem->id }}" {{ $variantItem->is_default==1 ? 'selected': '' }}>{{ $variantItem->name }} (${{ $variantItem->price }})</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
+                                    @endif
                                     @endforeach
 
 
@@ -919,122 +931,4 @@
 
 @endsection
 
-@push('scripts')
-<script>
-
-    $('document').ready(function(){
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $('.shopping-cart-form').on('submit', function(e){
-            e.preventDefault();
-            let formData = $(this).serialize();
-            $.ajax({
-                method : 'POST',
-                data : formData,
-                url : "{{ route('add-to-cart') }}",
-                success : function(data){
-                    getCartCount();
-                    getSidebarCartProducts();
-                    $('.mini_cart_action').removeClass('d-none');
-                    toastr.success(data.message);
-                },
-                error : function(data){
-                    console.error("Error", error);
-                }
-            })
-        });
-
-        function getCartCount()
-        {
-            $.ajax({
-                method : 'GET',
-                url : "{{ route('cart-count') }}",
-                success : function(data){
-                    $('#cart-count').text(data);
-                },
-                error : function(data){
-                    console.error("Error", error);
-                }
-            })
-        }
-
-
-        function getSidebarCartProducts()
-        {
-            $.ajax({
-                method : 'GET',
-                url : "{{ route('cart-products') }}",
-                success : function(data){
-                    $('.mini_cart_wrapper').html('');
-                    var html = "";
-                    for(let item in data){
-                        let product = data[item];
-                        html += `<li id="mini_cart_${product.rowId}">
-                            <div class="wsus__cart_img">
-                                <a href="{{ url('product-detail')}}/${product.options.slug} "><img src="{{ asset('/') }}${product.options.image}" alt="product" class="img-fluid w-100"></a>
-                                <a class="wsis__del_icon remove_sidebar_product" data-id="${product.rowId}" href="#"><i class="fas fa-minus-circle"></i></a>
-                            </div>
-                            <div class="wsus__cart_text">
-                                <a class="wsus__cart_title" href="{{ url('product-detail')}}/${product.options.slug} ">${product.name}</a>
-                                <p>{{ $settings->currency_icon }} ${product.price} <del>$150</del></p>
-                            </div>
-                        </li>`;
-                    }
-                    $('.mini_cart_wrapper').html(html);
-                    getSidebarCartSubTotal();
-                },
-                error : function(data){
-                    console.error("Error", error);
-                }
-            })
-        }
-
-        $('body').on('click','.remove_sidebar_product' , function(e){
-            e.preventDefault();
-            let rowId = $(this).data('id');
-            $.ajax({
-                method : 'POST',
-                data : {
-                    rowId : rowId
-                },
-                url : "{{ route('cart.remove-sidebar-products') }}",
-                success : function(data){
-                    let productId = '#mini_cart_'+rowId;
-                    $(productId).remove();
-                    getSidebarCartSubTotal();
-                    if($('.mini_cart_wrapper').find('li').length == 0){
-                        $('.mini_cart_wrapper').html('<li class="text-center">Cart is Empty</li>');
-                        $('.mini_cart_action').addClass('d-none');
-                    }
-                    toastr.success(data.message);
-                },
-                error : function(error){
-                    console.error("Error", error);
-                }
-            })
-        });
-
-
-        function getSidebarCartSubTotal()
-        {
-            $.ajax({
-                method : 'GET',
-                url : "{{ route('cart.sidebar-products-total') }}",
-                success : function(data){
-                    $('#mini_cart_subtotal').text("{{ $settings->currency_icon }}"+data);
-                },
-                error : function(data){
-                    console.error("Error", error);
-                }
-            })
-        }
-    });
-
-</script>
-@endpush
 

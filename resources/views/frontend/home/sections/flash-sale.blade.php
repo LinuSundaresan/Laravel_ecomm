@@ -57,8 +57,20 @@
                             @endif
 
 
+                            <form class="shopping-cart-form" action="">
+                                <input type="hidden" name="product_id" value="{{ $flashSaleHomeItem->product->id }}">
+                                @foreach ($flashSaleHomeItem->product->variants as $variant)
+                                    <select class="d-none" name="variants[]">
+                                        <option value="">--select--</option>
+                                        @foreach ($variant->productVariantItems as $variantItem)
+                                            <option value="{{ $variantItem->id }}" {{ $variantItem->is_default==1 ? 'selected': '' }}>{{ $variantItem->name }} (${{ $variantItem->price }})</option>
+                                        @endforeach
+                                    </select>
+                                @endforeach
+                                <input type="hidden" min="1" max="100" value="1" name="qty"/>
+                                <button type="submit" class="add_cart" href="#" style="border: 0px solid blue !important;">add to cart</button>
+                            </form>
 
-                            <a class="add_cart" href="#">add to cart</a>
                         </div>
                     </div>
 
@@ -136,26 +148,32 @@
                                 </p>
                                 <p class="description">{{ $flashSaleHomeItem->product->short_description }}</p>
 
-                                <div class="wsus_pro_hot_deals">
+                                <div class="wsus_pro_hot_deals mb-2">
                                     <h5>offer ending time : </h5>
                                     <div class="simply-countdown simply-countdown-one"></div>
                                 </div>
 
                                 <form class="shopping-cart-form form-control">
+
                                     <div class="wsus__selectbox">
                                         <div class="row">
                                             @foreach ($flashSaleHomeItem->product->variants as $variant)
+                                            @if($variant->status != 0)
+                                                <input type="hidden" name="product_id" value="{{ $flashSaleHomeItem->product->id }}">
                                                 <div class="col-xl-6 col-sm-6">
-                                                    <input type="hidden" name="product_id" value="{{ $flashSaleHomeItem->product->id }}">
-                                                    <h5 class="mb-2">select:</h5>
-                                                    <select class="select_2" name="state">
-                                                        <option value="">-- select--</option>
+                                                    <h5 class="mb-2">{{ $variant->name }}</h5>
+                                                    <select class="select_2" name="variants[]">
+                                                        <option value="">--select--</option>
                                                         @foreach ($variant->productVariantItems as $variantItem)
+                                                        @if($variantItem->status != 0)
                                                             <option value="{{ $variantItem->id }}" {{ $variantItem->is_default==1 ? 'selected': '' }}>{{ $variantItem->name }} (${{ $variantItem->price }})</option>
+                                                        @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                            @endif
                                             @endforeach
+
 
                                         </div>
                                     </div>
@@ -163,12 +181,12 @@
                                     <div class="wsus__quentity">
                                         <h5>quantity :</h5>
                                         <div class="select_number">
-                                            <input class="number_area" type="text" min="1" max="100" value="1" />
+                                            <input class="number_area" type="text" min="1" max="100" value="1" name="qty"/>
                                         </div>
                                     </div>
 
                                     <ul class="wsus__button_area">
-                                        <li><button type="submit" class="add_cart" href="#">add to cart</button></li>
+                                        <li><button type="submit" class="add_cart">add to cart</button></li>
                                         <li><a class="buy_now" href="#">buy now</a></li>
                                         <li><a href="#"><i class="fal fa-heart"></i></a></li>
                                         <li><a href="#"><i class="far fa-random"></i></a></li>
