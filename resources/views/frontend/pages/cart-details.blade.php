@@ -120,18 +120,17 @@
                     <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                         <h6>total cart</h6>
                         <p >subtotal: <span id="sub_total">{{ $settings->currency_icon }} {{ getCartTotal() }}</span></p>
-                        <p>delivery: <span>$00.00</span></p>
-                        <p>discount: <span>$10.00</span></p>
-                        <p class="total"><span>total:</span> <span>$134.00</span></p>
+                        <p>coupen(-): <span id="discount">{{ $settings->currency_icon.' ' . getCartDiscount()}}</span></p>
+                        <p class="total"><span>total:</span> <span id="cart_total">{{ $settings->currency_icon.' ' . getMainCartTotal()}}</span></p>
 
                         <form id="coupen_form" method="">
                             @csrf
-                            <input type="text" name="coupen_code" placeholder="Coupon Code">
+                            <input type="text" name="coupen_code" placeholder="Coupon Code" value="{{ session()->has('coupen') ? session()->get('coupen')['coupen_code']  : '' }}">
                             <button type="submit" class="common_btn">apply</button>
                         </form>
                         <a class="common_btn mt-4 w-100 text-center" href="check_out.html">checkout</a>
-                        <a class="common_btn mt-1 w-100 text-center" href="product_grid_view.html"><i
-                                class="fab fa-shopify"></i> go shop</a>
+                        <a class="common_btn mt-1 w-100 text-center" href="{{ route('home') }}"><i
+                                class="fab fa-shopify"></i> Keep Shopping! </a>
                     </div>
                 </div>
             </div>
@@ -204,6 +203,7 @@
                         let totalAmount = "{{ $settings->currency_icon }}"+data.product_total;
                         $(productId).text(totalAmount);
                         renderCartSubTotal();
+                        calculateCoupenDiscount();
                         toastr.success(data.message);
                     } else if(data.status=='error') {
                         toastr.success(data.message);
@@ -240,6 +240,7 @@
                         let totalAmount = "{{ $settings->currency_icon }}"+data.product_total;
                         $(productId).text(totalAmount);
                         renderCartSubTotal();
+                        calculateCoupenDiscount();
                         toastr.success(data.message);
                     } else if(data.status=='error') {
                         toastr.success(data.message);
@@ -320,13 +321,17 @@
             })
         });
 
+        //calculate discount amount
         function calculateCoupenDiscount()
         {
             $.ajax({
                 method: 'GET',
                 url: "{{ route('coupen-calculation') }}",
                 success: function(data) {
-                    console.log(data);
+                    if(data.status=='success'){
+                        $('#discount').text("{{ $settings->currency_icon }}"+data.discount);
+                        $('#cart_total').text("{{ $settings->currency_icon }}"+data.cart_total);
+                    }
                 },
                 error: function(data) {
                     console.error("Error", error);

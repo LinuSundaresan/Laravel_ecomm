@@ -70,6 +70,11 @@ class CartController extends Controller
     public function cartDetails()
     {
         $cartItems = Cart::content();
+
+        if(count($cartItems) == 0){
+            Session::forget('coupen');
+        }
+
         return view('frontend.pages.cart-details' , compact(
             'cartItems'
         ));
@@ -195,11 +200,15 @@ class CartController extends Controller
                 $total = $subTotal-$coupen['discount'];
                 return response(['status'=>'success' , 'cart_total' => $total , 'discount'=>$coupen['discount']]);
             } else if($coupen['discount_type'] == 'percent'){
-                $discount = $subTotal-(($subTotal*$coupen['discount'])/100);
+                //$discount = $subTotal-(($subTotal*$coupen['discount'])/100);
+                $discount = $subTotal*$coupen['discount']/100;
                 $total = $subTotal-$discount;
                 return response(['status'=>'success' , 'cart_total' => $total , 'discount'=>$discount]);
             }
 
+        } else {
+            $total = getCartTotal();
+            return response(['status'=>'success' , 'cart_total' => $total , 'discount'=> 0]);
         }
     }
 }
