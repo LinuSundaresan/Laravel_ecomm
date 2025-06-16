@@ -1,6 +1,8 @@
 <?php
 
 // use App\Http\Controllers\ProfileController;
+
+use App\Http\Controllers\Backend\CheckoutController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\VendorProductController;
@@ -61,7 +63,10 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
     /**User address route */
     Route::resource('address', UserAddressContoller::class);
 
-
+    /**Checkout routes */
+    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('checkout/address-create', [CheckoutController::class, 'createAddress'])->name('checkout.address.create');
+    Route::post('checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
 
 });
 

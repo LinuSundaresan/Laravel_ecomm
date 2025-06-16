@@ -13,6 +13,11 @@ class ShippingRuleRepository implements ShippingruleRepositoryInterface
         ShippingRule::create($data);
     }
 
+    public function getActive()
+    {
+        return ShippingRule::where('status', 1)->get();
+    }
+
     public function getByid($id)
     {
         return ShippingRule::find($id);
