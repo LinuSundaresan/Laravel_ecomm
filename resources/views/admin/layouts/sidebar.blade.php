@@ -49,7 +49,8 @@
             'admin.vendor-profile.*',
             'admin.flash-sale.*',
             'admin.coupens.*',
-            'admin.shipping-rule.*'
+            'admin.shipping-rule.*',
+            'admin.payment-settings.*'
         ]) }}" >
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>E-Commerce</span></a>
             <ul class="dropdown-menu">
@@ -57,6 +58,7 @@
               <li><a class="nav-link" href="{{route('admin.flash-sale.index')}}">Flash Sale</a></li>
               <li><a class="nav-link" href="{{route('admin.coupens.index')}}">Coupens</a></li>
               <li><a class="nav-link" href="{{route('admin.shipping-rule.index')}}">Shipping Rule</a></li>
+              <li><a class="nav-link" href="{{route('admin.payment-settings.index')}}">Payment Settings</a></li>
             </ul>
           </li>
 

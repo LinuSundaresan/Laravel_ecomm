@@ -7,6 +7,8 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CoupenController;
 use App\Http\Controllers\Backend\FlashSaleController;
+use App\Http\Controllers\Backend\PaymentSettingController;
+use App\Http\Controllers\Backend\PaypalSettingController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
@@ -100,6 +102,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::put('shipping-rule/update-status', [ShippingRuleController::class, 'updateStatus'])->name('shipping-rule.update-status');
     Route::resource('shipping-rule', ShippingRuleController::class);
 
+    /**payment settings routes */
+    Route::get('payment-setting', [PaymentSettingController::class, 'index'])->name('payment-settings.index');
+    Route::resource('paypal-setting', PaypalSettingController::class);
 });
 
 
