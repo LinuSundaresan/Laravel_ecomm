@@ -49,8 +49,11 @@ class PaymentController extends Controller
     {
         $config = $this->paypalConfig();
 
-        $provider = new PayPalClient();
-        $provider->setApiCredentials($config);
+        // $provider = new PayPalClient();
+        $provider = new PayPalClient($config);
+        // $provider->setApiCredentials($config);
+
+        $provider->getAccessToken();
 
         $total = getFinalPayableAmount();
 
@@ -68,5 +71,29 @@ class PaymentController extends Controller
             ]
         ]);
 
+        dd($response);
+
+        if(isset($response['id']) && $response['id']!=null){
+            foreach($response['links'] as $links){
+                if($link['rel'] == 'approve'){
+                    return redirect()->away($link['href']);
+                }
+            }
+        } else {
+            return redirect()->route('user.paypal.cancel');
+        }
+
+    }
+
+    /**paypal success */
+    public function paypalSuccess(Request $request)
+    {
+        dd($request->all());
+    }
+
+    /**paypal success */
+    public function paypalCancel(Request $request)
+    {
+        dd($request->all());
     }
 }
