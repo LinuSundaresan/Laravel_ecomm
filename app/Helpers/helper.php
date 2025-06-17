@@ -1,5 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Session;
+
+
+// use Cart;
+
 function setActive(array $routes, $activeClass = 'active')
 {
     foreach ($routes as $route) {
@@ -55,4 +60,70 @@ function productType($type): string
             return '';
             break;
     }
+}
+
+/***Get Total Cart Amount */
+function getCartTotal()
+{
+    $total = 0;
+    foreach(Cart::content() as $product){
+        $total += ($product->price + $product->options->variants_total) * $product->qty;
+    }
+    return $total;
+}
+
+/**Get payable total amount */
+function getMainCartTotal()
+{
+    if(Session::has('coupen')){
+            $coupen = Session::get('coupen');
+            $subTotal = getCartTotal();
+            if($coupen['discount_type'] == 'amount'){
+                $total = $subTotal-$coupen['discount'];
+                return $total;
+            } else if($coupen['discount_type'] == 'percent'){
+                //$discount = $subTotal-(($subTotal*$coupen['discount'])/100);
+                $discount = $subTotal*$coupen['discount']/100;
+                $total = $subTotal-$discount;
+                return $total;
+            } else {
+                return getCartTotal();
+            }
+
+        }
+}
+
+/**Get cart discount */
+function getCartDiscount()
+{
+    if(Session::has('coupen')){
+            $coupen = Session::get('coupen');
+            $subTotal = getCartTotal();
+            if($coupen['discount_type'] == 'amount'){
+                return $coupen['discount'];
+            } else if($coupen['discount_type'] == 'percent'){
+                $discount = $subTotal*$coupen['discount']/100;
+                return $discount;
+            } else {
+                return 0;
+            }
+
+        }
+}
+
+
+/**get shipping fee at cart */
+function getShippingFee()
+{
+    if(Session::has('shipping_method')){
+        return Session::get('shipping_method')['cost'];
+    } else {
+        return 0;
+    }
+}
+
+/**get payable amount */
+function getFinalPayableAmount()
+{
+    return getMainCartTotal()+getShippingFee();
 }

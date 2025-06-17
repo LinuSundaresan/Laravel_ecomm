@@ -9,7 +9,10 @@ use App\Http\Controllers\Backend\VendorProductVariantController;
 use App\Http\Controllers\Backend\VendorProductVariantItemController;
 use App\Http\Controllers\Backend\VendorProfileController;
 use App\Http\Controllers\Backend\VendorShopProfileController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\Frontend\FlashSaleController;
@@ -24,6 +27,18 @@ Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flash-sal
 Route::get('product-detail/{slug}', [FrontendProductController::class, 'showProduct'])->name('product-detail');
 /**Product Details */
 
+/**cart routes */
+Route::post('add-to-cart' , [CartController::class, 'addToCart'])->name('add-to-cart');
+Route::get('cart-details' , [CartController::class, 'cartDetails'])->name('cart-details');
+Route::post('cart/update-quantity' , [CartController::class, 'updateProductQty'])->name('cart.update-quantity');
+Route::get('clear-cart' , [CartController::class, 'clearCart'])->name('clear.cart');
+Route::get('cart/remove-product/{rawid}' , [CartController::class, 'removeProduct'])->name('cart.remove-product');
+Route::get('cart-count' , [CartController::class, 'getCartCount'])->name('cart-count');
+Route::get('cart-products' , [CartController::class, 'getCartProducts'])->name('cart-products');
+Route::post('cart/remove-sidebar-products' , [CartController::class, 'removeSidebarProduct'])->name('cart.remove-sidebar-products');
+Route::get('cart/sidebar-products-total' , [CartController::class, 'CartTotal'])->name('cart.sidebar-products-total');
+Route::get('apply-coupen' , [CartController::class, 'applyCoupen'])->name('apply-coupen');
+Route::get('coupen-calculation' , [CartController::class, 'coupenCalculation'])->name('coupen-calculation');
 
 
 Route::middleware('auth')->group(function () {
@@ -47,6 +62,19 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
 
     /**User address route */
     Route::resource('address', UserAddressContoller::class);
+
+    /**Checkout routes */
+    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('checkout/address-create', [CheckoutController::class, 'createAddress'])->name('checkout.address.create');
+    Route::post('checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
+
+    /**payment routes */
+    Route::get('payment', [PaymentController::class, 'index'])->name('payment');
+    /**paypal routes */
+    Route::get('paypal/payment', [PaymentController::class, 'payWithPaypal'])->name('paypal.payment');
+    Route::get('paypal/success', [PaymentController::class, 'paypalSuccessl'])->name('paypal.success');
+    Route::get('paypal/cancel', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
+
 });
 
 // Route::get('vendor/dashboard' , [VendorController::class, 'dashboard'])->middleware('auth', 'role:vendor')->name('vendor.dashboard');

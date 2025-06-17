@@ -10,6 +10,7 @@ use App\Interfaces\CoupenRepositoryInterface;
 use App\Interfaces\FlashSaleItemRepositoryInterface;
 use App\Interfaces\FlashSaleRepositoryInterface;
 use App\Interfaces\GeneralSettingRepositoryInterface;
+use App\Interfaces\PaypalSettingRepositoryInterface;
 use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\ProductVariantItemRepositoryInterface;
@@ -17,6 +18,7 @@ use App\Interfaces\ProductVariantRepositoryInterface;
 use App\Interfaces\ShippingruleRepositoryInterface;
 use App\Interfaces\SliderRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
+use App\Interfaces\UserAddressRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\VendorShopProfileRepositoryInterface;
 use App\Models\Product;
@@ -29,6 +31,7 @@ use App\Repositories\CoupenRepository;
 use App\Repositories\FlashSaleItemRepository;
 use App\Repositories\FlashSaleRepository;
 use App\Repositories\GeneralSettingRepository;
+use App\Repositories\PaypalSettingRepository;
 use App\Repositories\ProductImageGalleryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProductVariantItemRepository;
@@ -36,6 +39,7 @@ use App\Repositories\ProductVariantRepository;
 use App\Repositories\ShippingRuleRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
+use App\Repositories\UserAddressRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VendorShopProfileRepository;
 use Illuminate\Pagination\Paginator;
@@ -66,6 +70,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(GeneralSettingRepositoryInterface::class , GeneralSettingRepository::class);
         $this->app->bind(CoupenRepositoryInterface::class , CoupenRepository::class);
         $this->app->bind(ShippingruleRepositoryInterface::class , ShippingRuleRepository::class);
+        $this->app->bind(UserAddressRepositoryInterface::class , UserAddressRepository::class);
+        $this->app->bind(PaypalSettingRepositoryInterface::class, PaypalSettingRepository::class);
     }
 
     /**

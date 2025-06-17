@@ -1,5 +1,9 @@
 @extends('vendor.layouts.master')
 
+@section('title')
+    {{ $settings->site_name }} | Create Product Variants
+@endsection
+
 @section('content')
 
 <section id="wsus__dashboard">

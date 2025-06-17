@@ -11,7 +11,7 @@ class UserAddressRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class UserAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'max:200'],
+            'email'=> ['required', 'max:200', 'email'],
+            'phone'=> ['required', 'max:200'],
+            'country' => ['required', 'max:200'],
+            'state'=> ['required', 'max:200'],
+            'city' => ['required', 'max:200'],
+            'zip'  => ['required', 'max:200'],
+            'address'=> ['required'],
         ];
     }
 }
