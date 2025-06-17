@@ -3,6 +3,7 @@
 // use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\Backend\CheckoutController;
+use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\VendorProductController;
@@ -67,6 +68,9 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
     Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('checkout/address-create', [CheckoutController::class, 'createAddress'])->name('checkout.address.create');
     Route::post('checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
+
+    /**payment routes */
+    Route::get('payment', [PaymentController::class, 'index'])->name('payment');
 
 });
 

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PlaceOrderRequest;
 use App\Http\Requests\UserAddressRequest;
 use App\Interfaces\ShippingruleRepositoryInterface;
 use App\Interfaces\UserAddressRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller
 {
@@ -27,8 +29,24 @@ class CheckoutController extends Controller
         return redirect()->back();
     }
 
-    public function placeOrder(Request $request)
+    public function placeOrder(PlaceOrderRequest $request)
     {
-        dd($request->all());
+        $shippingMethod = app(ShippingruleRepositoryInterface::class)->getByid($request->shipping_method_id);
+
+        if($shippingMethod){
+            Session::put('shipping_method', [
+                'id'    =>  $shippingMethod->id,
+                'name'  =>  $shippingMethod->name,
+                'type'  =>  $shippingMethod->type,
+                'cost'  =>  $shippingMethod->cost,
+            ]);
+        }
+
+        $address = app(UserAddressRepositoryInterface::class)->getById($request->shipping_address_id)->toArray();
+        if($address){
+            Session::put('address', $address);
+        }
+
+        return response(['status' => 'success' , 'redirect_url' => route('user.payment')]);
     }
 }
