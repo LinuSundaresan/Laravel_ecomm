@@ -48,6 +48,7 @@ class PaymentController extends Controller
     public function payWithPaypal()
     {
         $config = $this->paypalConfig();
+        // dd($config);
 
         // $provider = new PayPalClient();
         $provider = new PayPalClient($config);
@@ -57,26 +58,42 @@ class PaymentController extends Controller
 
         $total = getFinalPayableAmount();
 
+        // $response = $provider->createOrder([
+        //     "intent" =>  "CAPTURE",
+        //     "application_context" => [
+        //         "return_url" => route('user.paypal.success'),
+        //         "cancel_url" => route('user.paypal.cancel')
+        //     ],
+        //     "purchase_units" => [
+        //         "amount" => [
+        //             "currency_code"=> $config['currency'],
+        //             "value" => $total
+        //         ]
+        //     ]
+        // ]);
+
         $response = $provider->createOrder([
-            "intent" =>  "CAPTURE",
+            "intent" => "CAPTURE",
             "application_context" => [
                 "return_url" => route('user.paypal.success'),
                 "cancel_url" => route('user.paypal.cancel')
             ],
             "purchase_units" => [
-                "amount" => [
-                    "currency_code"=> $config['currency'],
-                    "value" => $total
+                [
+                    "amount" => [
+                        "currency_code" => $config['currency'],
+                        "value" => $total
+                    ]
                 ]
             ]
         ]);
 
-        dd($response);
+        // dd($response);
 
         if(isset($response['id']) && $response['id']!=null){
             foreach($response['links'] as $links){
-                if($link['rel'] == 'approve'){
-                    return redirect()->away($link['href']);
+                if($links['rel'] == 'approve'){
+                    return redirect()->away($links['href']);
                 }
             }
         } else {
@@ -88,7 +105,17 @@ class PaymentController extends Controller
     /**paypal success */
     public function paypalSuccess(Request $request)
     {
-        dd($request->all());
+        $config = $this->paypalConfig();
+        $provider = new PayPalClient($config);
+        $provider->getAccessToken();
+
+        $response = $provider->capturePaymentOrder($request->token);
+
+        if(isset($response['status']) && $response['status']=='COMPLETED'){
+            return "Paid Succcesfully";
+        }
+
+        return redirect()->route('user.paypalCancel');
     }
 
     /**paypal success */
