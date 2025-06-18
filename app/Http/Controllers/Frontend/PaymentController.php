@@ -18,6 +18,11 @@ class PaymentController extends Controller
         return view('frontend.pages.payment');
     }
 
+    public function paymentSuccess()
+    {
+        return view('frontend.pages.payment-success');
+    }
+
     public function paypalConfig()
     {
         $paypalSetting = app(PaypalSettingRepositoryInterface::class)->getPaypalSettings();
@@ -71,7 +76,7 @@ class PaymentController extends Controller
         //         ]
         //     ]
         // ]);
-
+        $config['currency'] = 'USD';
         $response = $provider->createOrder([
             "intent" => "CAPTURE",
             "application_context" => [
@@ -112,7 +117,7 @@ class PaymentController extends Controller
         $response = $provider->capturePaymentOrder($request->token);
 
         if(isset($response['status']) && $response['status']=='COMPLETED'){
-            return "Paid Succcesfully";
+            return redirect()->route('user.payment.success');
         }
 
         return redirect()->route('user.paypalCancel');
@@ -121,6 +126,7 @@ class PaymentController extends Controller
     /**paypal success */
     public function paypalCancel(Request $request)
     {
-        dd($request->all());
+        toastr('Something went wrong, try again later!', 'error', 'Error');
+        return redirect()->route('user.payment');
     }
 }
