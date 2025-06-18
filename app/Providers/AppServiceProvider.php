@@ -10,6 +10,8 @@ use App\Interfaces\CoupenRepositoryInterface;
 use App\Interfaces\FlashSaleItemRepositoryInterface;
 use App\Interfaces\FlashSaleRepositoryInterface;
 use App\Interfaces\GeneralSettingRepositoryInterface;
+use App\Interfaces\OrderProductRepositoryInterface;
+use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\PaypalSettingRepositoryInterface;
 use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
@@ -31,6 +33,8 @@ use App\Repositories\CoupenRepository;
 use App\Repositories\FlashSaleItemRepository;
 use App\Repositories\FlashSaleRepository;
 use App\Repositories\GeneralSettingRepository;
+use App\Repositories\OrderProductRepository;
+use App\Repositories\OrderRepository;
 use App\Repositories\PaypalSettingRepository;
 use App\Repositories\ProductImageGalleryRepository;
 use App\Repositories\ProductRepository;
@@ -72,6 +76,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ShippingruleRepositoryInterface::class , ShippingRuleRepository::class);
         $this->app->bind(UserAddressRepositoryInterface::class , UserAddressRepository::class);
         $this->app->bind(PaypalSettingRepositoryInterface::class, PaypalSettingRepository::class);
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+        $this->app->bind(OrderProductRepositoryInterface::class, OrderProductRepository::class);
     }
 
     /**

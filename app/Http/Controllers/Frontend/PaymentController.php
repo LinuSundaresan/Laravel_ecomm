@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\GeneralSettingRepositoryInterface;
+use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\PaypalSettingRepositoryInterface;
+use App\Interfaces\ProductRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -21,6 +25,42 @@ class PaymentController extends Controller
     public function paymentSuccess()
     {
         return view('frontend.pages.payment-success');
+    }
+
+    public function storeOrder($paymentMethod , $paymentStatus)
+    {
+        $settings = app(GeneralSettingRepositoryInterface::class)->getGeneralSetting();
+
+        $orderData = [
+            'invoice_id'    =>  rand(1,99999),
+            'user_id'       =>  Auth::user()->id,
+            'sub_total'     =>  getMainCartTotal(),
+            'amount'        =>  getFinalPayableAmount(),
+            'currency_name' =>  $settings->currency_name,
+            'currency_icon' =>  $settings->currency_icon,
+            'product_qty'   =>  \Cart::content()->count(),
+            'payment_method'=>  $paymentMethod,
+            'payment_status'=>  $paymentStatus,
+            'order_address' =>  json_encode(Session::get('address')),
+            'shipping_method'=> json_encode(Session::get('shipping_method')),
+            'coupen'        =>  json_encode(Session::get('coupen')),
+            'order_status'  =>  0
+        ];
+
+        $order_id = app(OrderRepositoryInterface::class)->store($orderData);
+
+        $orderProducts = [];
+
+        foreach(\Cart::content() as $item){
+
+            $product = app(ProductRepositoryInterface::class)->getById($item->id);
+            $orderProduct['order_id'] = $order_id;
+            $orderProduct['product_id'] = $product->id;
+            $orderProduct['vendor_id'] = $product->vendor_id;
+            $orderProduct['product_name'] = $product->name;
+            $orderProduct['variants'] = json_encode($item->options->variants);
+            $orderProduct['variant_total'] = $item->options->variant_total;
+        }
     }
 
     public function paypalConfig()
