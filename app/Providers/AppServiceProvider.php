@@ -20,6 +20,7 @@ use App\Interfaces\ProductVariantRepositoryInterface;
 use App\Interfaces\ShippingruleRepositoryInterface;
 use App\Interfaces\SliderRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
+use App\Interfaces\TransactionRepositoryInterface;
 use App\Interfaces\UserAddressRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\VendorShopProfileRepositoryInterface;
@@ -43,6 +44,7 @@ use App\Repositories\ProductVariantRepository;
 use App\Repositories\ShippingRuleRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\SubCategoryRepository;
+use App\Repositories\TransactionRepository;
 use App\Repositories\UserAddressRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VendorShopProfileRepository;
@@ -78,6 +80,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PaypalSettingRepositoryInterface::class, PaypalSettingRepository::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(OrderProductRepositoryInterface::class, OrderProductRepository::class);
+        $this->app->bind(TransactionRepositoryInterface::class , TransactionRepository::class);
     }
 
     /**

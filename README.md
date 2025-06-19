@@ -21,20 +21,22 @@ A robust and scalable multi-vendor eCommerce platform built with **Laravel 11**,
 - **Password Change Option**
   - Available for Admin, Vendor, and User roles
 
+- **Advanced Product Coupon System**
+  - Coupon management with multiple discount rules
+
+- **Product Discount Feature**
+  - Time-based and percentage-based discounts
+
+- **Advanced Add-to-Cart**
+  - Cart management with auto-update and quantity check
 
 ### 🔜 Upcoming Features
 
 - **Advanced Product Search**
   - Filter by category, price, tags, vendor, ratings, etc.
 
-- **Advanced Product Coupon System**
-  - Coupon management with multiple discount rules
-
 - **Product Review & Rating System**
   - Users can leave reviews and rate products
-
-- **Product Discount Feature**
-  - Time-based and percentage-based discounts
 
 - **Multiple Payment Gateways**
   - (e.g., PayPal, Stripe, Razorpay — pluggable system)
@@ -44,9 +46,6 @@ A robust and scalable multi-vendor eCommerce platform built with **Laravel 11**,
 
 - **Order Management**
   - Place, track, update, and manage orders
-
-- **Advanced Add-to-Cart**
-  - Cart management with auto-update and quantity check
 
 - **Shipping Rule System**
   - Zone-based or vendor-defined shipping rates

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\GeneralSettingRepositoryInterface;
+use App\Interfaces\OrderProductRepositoryInterface;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\PaypalSettingRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Interfaces\TransactionRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -27,10 +29,12 @@ class PaymentController extends Controller
         return view('frontend.pages.payment-success');
     }
 
-    public function storeOrder($paymentMethod , $paymentStatus)
+    public function storeOrder($paymentMethod , $paymentStatus , $transactionId, $paidAmount , $paidCurrencyName)
     {
+
         $settings = app(GeneralSettingRepositoryInterface::class)->getGeneralSetting();
 
+        //store order details
         $orderData = [
             'invoice_id'    =>  rand(1,99999),
             'user_id'       =>  Auth::user()->id,
@@ -44,23 +48,48 @@ class PaymentController extends Controller
             'order_address' =>  json_encode(Session::get('address')),
             'shipping_method'=> json_encode(Session::get('shipping_method')),
             'coupen'        =>  json_encode(Session::get('coupen')),
-            'order_status'  =>  0
+            'order-status'  =>  0
         ];
 
         $order_id = app(OrderRepositoryInterface::class)->store($orderData);
 
+        //store order products
         $orderProducts = [];
 
         foreach(\Cart::content() as $item){
 
             $product = app(ProductRepositoryInterface::class)->getById($item->id);
-            $orderProduct['order_id'] = $order_id;
-            $orderProduct['product_id'] = $product->id;
-            $orderProduct['vendor_id'] = $product->vendor_id;
-            $orderProduct['product_name'] = $product->name;
-            $orderProduct['variants'] = json_encode($item->options->variants);
-            $orderProduct['variant_total'] = $item->options->variant_total;
+            $orderProducts['order_id'] = $order_id;
+            $orderProducts['product_id'] = $product->id;
+            $orderProducts['vendor_id'] = $product->vendor_id;
+            $orderProducts['product_name'] = $product->name;
+            $orderProducts['variants'] = json_encode($item->options->variants);
+            $orderProducts['variantTotal'] = $item->options->variant_total;
+            $orderProducts['unit_price'] = $item->price;
+            $orderProducts['qty'] = $item->qty;
+
+            app(OrderProductRepositoryInterface::class)->store($orderProducts);
         }
+
+        //store transaction details
+        $transactionDetails = [];
+
+        $transactionDetails['order_id'] = $order_id;
+        $transactionDetails['transaction_id'] = $transactionId;
+        $transactionDetails['payment_method'] = $paymentMethod;
+        $transactionDetails['amount'] = getFinalPayableAmount();
+        $transactionDetails['amount_real_currency'] = $paidAmount;
+        $transactionDetails['amount_real_currency_name'] = $paidCurrencyName;
+
+        app(TransactionRepositoryInterface::class)->store($transactionDetails);
+    }
+
+    public function clearSession()
+    {
+        \Cart::destroy();
+        Session::forget('address');
+        Session::forget('coupen');
+        Session::forget('shipping_method');
     }
 
     public function paypalConfig()
@@ -157,6 +186,17 @@ class PaymentController extends Controller
         $response = $provider->capturePaymentOrder($request->token);
 
         if(isset($response['status']) && $response['status']=='COMPLETED'){
+
+            $paypalSetting = app(PaypalSettingRepositoryInterface::class)->getPaypalSettings();
+            $total = getFinalPayableAmount();
+            $paidAmount = round($total * $paypalSetting->currency_rate, 2);
+
+            $this->storeOrder('paypal', 1, $response['id'], $paidAmount , $paypalSetting->currency_name);
+
+            //clearSession
+
+            $this->clearSession();
+
             return redirect()->route('user.payment.success');
         }
 
