@@ -8,11 +8,14 @@ use App\Interfaces\OrderProductRepositoryInterface;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\PaypalSettingRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Interfaces\StripeSettingRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
@@ -122,7 +125,6 @@ class PaymentController extends Controller
     public function payWithPaypal()
     {
         $config = $this->paypalConfig();
-        // dd($config);
 
         // $provider = new PayPalClient();
         $provider = new PayPalClient($config);
@@ -145,6 +147,7 @@ class PaymentController extends Controller
         //         ]
         //     ]
         // ]);
+
         $config['currency'] = 'USD';
         $response = $provider->createOrder([
             "intent" => "CAPTURE",
@@ -161,8 +164,6 @@ class PaymentController extends Controller
                 ]
             ]
         ]);
-
-        // dd($response);
 
         if(isset($response['id']) && $response['id']!=null){
             foreach($response['links'] as $links){
@@ -194,7 +195,6 @@ class PaymentController extends Controller
             $this->storeOrder('paypal', 1, $response['id'], $paidAmount , $paypalSetting->currency_name);
 
             //clearSession
-
             $this->clearSession();
 
             return redirect()->route('user.payment.success');
@@ -208,5 +208,32 @@ class PaymentController extends Controller
     {
         toastr('Something went wrong, try again later!', 'error', 'Error');
         return redirect()->route('user.payment');
+    }
+
+
+    /**stripe payment */
+    public function payWithStripe(Request $request)
+    {
+        $total = getFinalPayableAmount();
+
+        $stripeSetting = app(StripeSettingRepositoryInterface::class)->getStripeSettings();
+        Stripe::setApiKey($stripeSetting->secret_key);
+        $response = Charge::create([
+            "amount"    =>  $total * 100,
+            "currency"  =>  $stripeSetting->currency_name,
+            "source"    =>  $request->stripe_token,
+            "description"=>  'Product Purchase'
+        ]);
+
+        if($response->status == 'succeeded'){
+            $this->storeOrder('stripe', 1, $response->id, $total , $stripeSetting->currency_name);
+
+            $this->clearSession();
+            return redirect()->route('user.payment.success');
+
+        } else {
+            toastr('Something went wrong, try again later!', 'error', 'Error');
+            return redirect()->route('user.payment');
+        }
     }
 }

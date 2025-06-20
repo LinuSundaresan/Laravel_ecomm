@@ -19,6 +19,7 @@ use App\Interfaces\ProductVariantItemRepositoryInterface;
 use App\Interfaces\ProductVariantRepositoryInterface;
 use App\Interfaces\ShippingruleRepositoryInterface;
 use App\Interfaces\SliderRepositoryInterface;
+use App\Interfaces\StripeSettingRepositoryInterface;
 use App\Interfaces\SubCategoryRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
 use App\Interfaces\UserAddressRepositoryInterface;
@@ -43,6 +44,7 @@ use App\Repositories\ProductVariantItemRepository;
 use App\Repositories\ProductVariantRepository;
 use App\Repositories\ShippingRuleRepository;
 use App\Repositories\SliderRepository;
+use App\Repositories\StripeSettingRepository;
 use App\Repositories\SubCategoryRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\UserAddressRepository;
@@ -81,6 +83,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(OrderProductRepositoryInterface::class, OrderProductRepository::class);
         $this->app->bind(TransactionRepositoryInterface::class , TransactionRepository::class);
+        $this->app->bind(StripeSettingRepositoryInterface::class , StripeSettingRepository::class);
     }
 
     /**

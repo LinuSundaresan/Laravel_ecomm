@@ -72,10 +72,15 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
     Route::get('payment', [PaymentController::class, 'index'])->name('payment');
     Route::get('payment-success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
 
+
     /**paypal routes */
     Route::get('paypal/payment', [PaymentController::class, 'payWithPaypal'])->name('paypal.payment');
     Route::get('paypal/success', [PaymentController::class, 'paypalSuccess'])->name('paypal.success');
     Route::get('paypal/cancel', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
+
+
+    /**stripe routes */
+    Route::get('stripe/payment', [PaymentController::class, 'payWithStripe'])->name('stripe.payment');
 
 });
 
