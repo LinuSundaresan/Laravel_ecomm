@@ -17,6 +17,7 @@ use App\Interfaces\ProductImageGalleryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\ProductVariantItemRepositoryInterface;
 use App\Interfaces\ProductVariantRepositoryInterface;
+use App\Interfaces\RazorpaySettingRepositoryInterface;
 use App\Interfaces\ShippingruleRepositoryInterface;
 use App\Interfaces\SliderRepositoryInterface;
 use App\Interfaces\StripeSettingRepositoryInterface;
@@ -25,7 +26,9 @@ use App\Interfaces\TransactionRepositoryInterface;
 use App\Interfaces\UserAddressRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\VendorShopProfileRepositoryInterface;
+use App\Models\Order;
 use App\Models\Product;
+use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
 use App\Repositories\AdminVendorProfileRepository;
 use App\Repositories\BrandRepository;
@@ -42,6 +45,7 @@ use App\Repositories\ProductImageGalleryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProductVariantItemRepository;
 use App\Repositories\ProductVariantRepository;
+use App\Repositories\RazorpaySettingRepository;
 use App\Repositories\ShippingRuleRepository;
 use App\Repositories\SliderRepository;
 use App\Repositories\StripeSettingRepository;
@@ -84,6 +88,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderProductRepositoryInterface::class, OrderProductRepository::class);
         $this->app->bind(TransactionRepositoryInterface::class , TransactionRepository::class);
         $this->app->bind(StripeSettingRepositoryInterface::class , StripeSettingRepository::class);
+        $this->app->bind(RazorpaySettingRepositoryInterface::class , RazorpaySettingRepository::class);
     }
 
     /**
@@ -93,6 +98,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Product::observe(ProductObserver::class);
+        Order::observe(OrderObserver::class);
         Paginator::useBootstrap();
         $generalSetting = app(GeneralSettingRepositoryInterface::class)->getGeneralSetting();
 

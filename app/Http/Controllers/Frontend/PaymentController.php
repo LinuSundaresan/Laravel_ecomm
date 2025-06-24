@@ -41,7 +41,7 @@ class PaymentController extends Controller
         $orderData = [
             'invoice_id'    =>  rand(1,99999),
             'user_id'       =>  Auth::user()->id,
-            'sub_total'     =>  getMainCartTotal(),
+            'sub_total'     =>  getCartTotal(),
             'amount'        =>  getFinalPayableAmount(),
             'currency_name' =>  $settings->currency_name,
             'currency_icon' =>  $settings->currency_icon,
@@ -51,7 +51,7 @@ class PaymentController extends Controller
             'order_address' =>  json_encode(Session::get('address')),
             'shipping_method'=> json_encode(Session::get('shipping_method')),
             'coupen'        =>  json_encode(Session::get('coupen')),
-            'order-status'  =>  0
+            'order_status'  =>  'pending'
         ];
 
         $order_id = app(OrderRepositoryInterface::class)->store($orderData);
@@ -235,5 +235,11 @@ class PaymentController extends Controller
             toastr('Something went wrong, try again later!', 'error', 'Error');
             return redirect()->route('user.payment');
         }
+    }
+
+    /**Razorpay payment */
+    public function payWithRazorpay(Request $request)
+    {
+        dd($request->all());
     }
 }

@@ -76,39 +76,39 @@ function getCartTotal()
 function getMainCartTotal()
 {
     if(Session::has('coupen')){
-            $coupen = Session::get('coupen');
-            $subTotal = getCartTotal();
-            if($coupen['discount_type'] == 'amount'){
-                $total = $subTotal-$coupen['discount'];
-                return $total;
-            } else if($coupen['discount_type'] == 'percent'){
-                //$discount = $subTotal-(($subTotal*$coupen['discount'])/100);
-                $discount = $subTotal*$coupen['discount']/100;
-                $total = $subTotal-$discount;
-                return $total;
-            } else {
-                return getCartTotal();
-            }
-
+        $coupen = Session::get('coupen');
+        $subTotal = getCartTotal();
+        if($coupen['discount_type'] == 'amount'){
+            $total = $subTotal-$coupen['discount'];
+            return $total;
+        } else if($coupen['discount_type'] == 'percent'){
+            //$discount = $subTotal-(($subTotal*$coupen['discount'])/100);
+            $discount = $subTotal*$coupen['discount']/100;
+            $total = $subTotal-$discount;
+            return $total;
+        } else {
+            return getCartTotal();
         }
+
+    }
 }
 
 /**Get cart discount */
 function getCartDiscount()
 {
     if(Session::has('coupen')){
-            $coupen = Session::get('coupen');
-            $subTotal = getCartTotal();
-            if($coupen['discount_type'] == 'amount'){
-                return $coupen['discount'];
-            } else if($coupen['discount_type'] == 'percent'){
-                $discount = $subTotal*$coupen['discount']/100;
-                return $discount;
-            } else {
-                return 0;
-            }
-
+        $coupen = Session::get('coupen');
+        $subTotal = getCartTotal();
+        if($coupen['discount_type'] == 'amount'){
+            return $coupen['discount'];
+        } else if($coupen['discount_type'] == 'percent'){
+            $discount = $subTotal*$coupen['discount']/100;
+            return $discount;
+        } else {
+            return 0;
         }
+
+    }
 }
 
 

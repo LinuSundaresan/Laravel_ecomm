@@ -16,4 +16,14 @@ class OrderProduct extends Model
         'unit_price',
         'qty'
     ];
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

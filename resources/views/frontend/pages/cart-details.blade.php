@@ -183,6 +183,8 @@
             }
         });
 
+        calculateCoupenDiscount();
+
         $('.product-increment').on('click', function(e){
             e.preventDefault();
             let input = $(this).siblings('.product_qty');
@@ -333,11 +335,12 @@
                         $('#cart_total').text("{{ $settings->currency_icon }}"+data.cart_total);
                     }
                 },
-                error: function(data) {
-                    console.error("Error", error);
+                error: function(xhr) {
+                    console.error("Error", xhr.responseText);
                 }
             })
         }
+
 
 
     })

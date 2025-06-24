@@ -46,6 +46,30 @@
         </li>
 
         <li class="dropdown {{ setActive([
+            'admin.order.*',
+            'admin.pending-orders',
+            'admin.processed-orders',
+            'admin.dropped-off-orders',
+            'admin.shipped-orders',
+            'admin.out-for-delivery-orders',
+            'admin.delivered-orders',
+            'admin.cancelled-orders',
+        ]) }}">
+          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Manage Orders</span></a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link {{ request()->routeIs('admin.order.*') ? 'active' : '' }}" href="{{route('admin.order.index')}}">All Orders</a></li>
+            <li><a class="nav-link {{ request()->routeIs('admin.pending-orders') ? 'active' : '' }}" href="{{route('admin.pending-orders')}}">All Pending Orders</a></li>
+            <li><a class="nav-link {{ request()->routeIs('admin.processed-orders') ? 'active' : '' }}" href="{{route('admin.processed-orders')}}">All Processed Orders</a></li>
+            <li><a class="nav-link {{ request()->routeIs('admin.dropped-off-orders') ? 'active' : '' }}" href="{{route('admin.dropped-off-orders')}}">All Dropped Off Orders</a></li>
+            <li><a class="nav-link {{ request()->routeIs('admin.shipped-orders') ? 'active' : '' }}" href="{{route('admin.shipped-orders')}}">All Shipped Orders</a></li>
+            <li><a class="nav-link {{ request()->routeIs('admin.out-for-delivery-orders') ? 'active' : '' }}" href="{{route('admin.out-for-delivery-orders')}}">All Out for delivery Orders</a></li>
+            <li><a class="nav-link {{ request()->routeIs('admin.delivered-orders') ? 'active' : '' }}" href="{{route('admin.delivered-orders')}}">All Delivered Orders</a></li>
+            <li><a class="nav-link {{ request()->routeIs('admin.cancelled-orders') ? 'active' : '' }}" href="{{route('admin.cancelled-orders')}}">All Cancelled Orders</a></li>
+
+          </ul>
+        </li>
+
+        <li class="dropdown {{ setActive([
             'admin.vendor-profile.*',
             'admin.flash-sale.*',
             'admin.coupens.*',

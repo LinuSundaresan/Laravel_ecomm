@@ -19,6 +19,21 @@ class Order extends Model
         'order_address',
         'shipping_method',
         'coupen',
-        'order-status'
+        'order_status'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
+    }
+
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
 }

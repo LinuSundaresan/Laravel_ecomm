@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CoupenController;
 use App\Http\Controllers\Backend\FlashSaleController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PaymentSettingController;
 use App\Http\Controllers\Backend\PaypalSettingController;
 use App\Http\Controllers\Backend\ProductController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\ProfileController;
+use App\Http\Controllers\Backend\RazorpaySettingController;
 use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ShippingRuleController;
@@ -99,6 +101,18 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::put('coupens/update-status', [CoupenController::class, 'updateStatus'])->name('coupens.update-status');
     Route::resource('coupens', CoupenController::class);
 
+    /***Order routes */
+    Route::get('order-status', [OrderController::class, 'changeOrderStatus'])->name('order.status');
+    Route::get('pending-orders', [OrderController::class, 'pendingOrders'])->name('pending-orders');
+    Route::get('processed-orders', [OrderController::class, 'processedOrders'])->name('processed-orders');
+    Route::get('dropped-off-orders', [OrderController::class, 'droppedoffOrders'])->name('dropped-off-orders');
+    Route::get('shipped-orders', [OrderController::class, 'shippedOrders'])->name('shipped-orders');
+    Route::get('out-for-delivery-orders', [OrderController::class, 'outForDeliveryOrders'])->name('out-for-delivery-orders');
+    Route::get('delivered-orders', [OrderController::class, 'deliveredOrders'])->name('delivered-orders');
+    Route::get('cancelled-orders', [OrderController::class, 'cancelledOrders'])->name('cancelled-orders');
+    Route::get('payment-status', [OrderController::class, 'changePaymentStatus'])->name('payment.status');
+    Route::resource('order', OrderController::class);
+
     //Shipping Rules Routes
     Route::put('shipping-rule/update-status', [ShippingRuleController::class, 'updateStatus'])->name('shipping-rule.update-status');
     Route::resource('shipping-rule', ShippingRuleController::class);
@@ -107,6 +121,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::get('payment-setting', [PaymentSettingController::class, 'index'])->name('payment-settings.index');
     Route::resource('paypal-setting', PaypalSettingController::class);
     Route::put('stripe-setting/{id}', [StripeSettingController::class, 'update'])->name('stripe-setting.index');
+    Route::put('razorpay-setting/{id}', [RazorpaySettingController::class, 'update'])->name('razorpay-setting.index');
 });
 
 

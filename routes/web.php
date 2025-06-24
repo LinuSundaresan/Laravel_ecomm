@@ -82,6 +82,9 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
     /**stripe routes */
     Route::get('stripe/payment', [PaymentController::class, 'payWithStripe'])->name('stripe.payment');
 
+    /**razorpay routes */
+    Route::get('razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
+
 });
 
 // Route::get('vendor/dashboard' , [VendorController::class, 'dashboard'])->middleware('auth', 'role:vendor')->name('vendor.dashboard');
