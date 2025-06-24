@@ -22,8 +22,7 @@ use App\Http\Controllers\Backend\ShippingRuleController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\StripeSettingController;
 use App\Http\Controllers\Backend\SubCategoryController;
-
-
+use App\Http\Controllers\Backend\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /**Admin Routes */
@@ -112,6 +111,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::get('cancelled-orders', [OrderController::class, 'cancelledOrders'])->name('cancelled-orders');
     Route::get('payment-status', [OrderController::class, 'changePaymentStatus'])->name('payment.status');
     Route::resource('order', OrderController::class);
+
+    /**Order transactio routes */
+    Route::get('transaction', [TransactionController::class, 'index'])->name('transaction');
 
     //Shipping Rules Routes
     Route::put('shipping-rule/update-status', [ShippingRuleController::class, 'updateStatus'])->name('shipping-rule.update-status');

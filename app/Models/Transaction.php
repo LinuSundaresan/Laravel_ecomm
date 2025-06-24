@@ -14,4 +14,9 @@ class Transaction extends Model
         'amount_real_currency',
         'amount_real_currency_name'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
