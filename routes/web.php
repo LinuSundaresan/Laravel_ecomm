@@ -3,6 +3,7 @@
 // use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\VendorController;
+use App\Http\Controllers\Backend\VendorOrderController;
 use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\Backend\VendorProductImageGalleryController;
 use App\Http\Controllers\Backend\VendorProductVariantController;
@@ -119,6 +120,11 @@ Route::prefix('vendor')->middleware('auth', 'role:vendor')->name('vendor.')->gro
     Route::put('products-variant-item-update/{variantItemId}', [VendorProductVariantItemController::class, 'update'])->name('products-variant-item.update');
     Route::delete('products-variant-item/{variantItemId}', [VendorProductVariantItemController::class, 'destroy'])->name('products-variant-item.destroy');
     Route::put('products-variant-item-status', [VendorProductVariantItemController::class, 'changeStatus'])->name('products-variant-item.change-status');
+
+    /* Vendor Orders routes */
+    Route::get('orders', [VendorOrderController::class , 'index'])->name('orders');
+    Route::get('orders/show/{id}', [VendorOrderController::class , 'show'])->name('orders.show');
+    Route::post('orders/status/{id}', [VendorOrderController::class , 'orderStatus'])->name('orders.status');
 
 });
 

@@ -19,6 +19,11 @@ class OrderRepository implements OrderRepositoryInterface
         return Order::findOrFail($id);
     }
 
+    public function getByIdwithUser(string $id)
+    {
+        return Order::with(['user'])->findOrFail($id);
+    }
+
     public function updateOrderStatus($data , $id)
     {
         $status = ['order_status' => $data];
