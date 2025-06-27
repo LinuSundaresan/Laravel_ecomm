@@ -28,6 +28,7 @@
           <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Menus</span></a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{route('admin.slider.index')}}">Slider</a></li>
+            <li><a class="nav-link" href="{{route('admin.home-page-setting')}}">Homepage Setting</a></li>
           </ul>
         </li>
 

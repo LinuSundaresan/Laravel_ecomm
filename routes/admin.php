@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CoupenController;
 use App\Http\Controllers\Backend\FlashSaleController;
+use App\Http\Controllers\Backend\HomepageSettingController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PaymentSettingController;
 use App\Http\Controllers\Backend\PaypalSettingController;
@@ -95,6 +96,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     //Settings routes
     Route::get('settings', [SettingsController::class , 'index'])->name('settings.index');
     Route::put('general-setting-update', [SettingsController::class , 'generalSettingUpdate'])->name('general-settings-update');
+
+    //Homepage setting route
+    Route::get('home-page-setting', [HomepageSettingController::class , 'index'])->name('home-page-setting');
+    Route::put('popular-category-section', [HomepageSettingController::class , 'updatePopularCategorySection'])->name('popular-category-section');
 
     //Coupen Routes
     Route::put('coupens/update-status', [CoupenController::class, 'updateStatus'])->name('coupens.update-status');

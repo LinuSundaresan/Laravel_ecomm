@@ -30,6 +30,12 @@ A robust and scalable multi-vendor eCommerce platform built with **Laravel 11**,
 - **Advanced Add-to-Cart**
   - Cart management with auto-update and quantity check
 
+- **Multiple Payment Gateways**
+  - (e.g., PayPal, Stripe, Razorpay — pluggable system)
+
+- **Transaction History**
+  - View and manage payment and order logs
+
 ### 🔜 Upcoming Features
 
 - **Advanced Product Search**
@@ -37,9 +43,6 @@ A robust and scalable multi-vendor eCommerce platform built with **Laravel 11**,
 
 - **Product Review & Rating System**
   - Users can leave reviews and rate products
-
-- **Multiple Payment Gateways**
-  - (e.g., PayPal, Stripe, Razorpay — pluggable system)
 
 - **Product Wishlist**
   - Users can add products to their wishlist
@@ -61,10 +64,7 @@ A robust and scalable multi-vendor eCommerce platform built with **Laravel 11**,
 
 - **Advertisement Feature**
   - Manage ads to monetize platform space
-
-- **Transaction History**
-  - View and manage payment and order logs
-
+  
 ---
 
 ## 🛠️ Tech Stack
