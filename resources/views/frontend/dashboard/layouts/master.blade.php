@@ -27,6 +27,10 @@
   <link rel="stylesheet" href="{{asset('frontend/css/responsive.css')}}">
   <!-- <link rel="stylesheet" href="css/rtl.css"> -->
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+  <link rel="stylesheet" href="//cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+
 </head>
 
 <body>
@@ -86,7 +90,7 @@
   <script src="{{asset('frontend/js/jquery.waypoints.min.js')}}"></script>
   <script src="{{asset('frontend/js/jquery.countup.min.js')}}"></script>
   <!--add row js-->
-  <script src="js/add_row_custon.js')}}"></script>
+  <script src="{{asset('frontend/js/add_row_custon.js')}}"></script>
   <!--multiple-image-video js-->
   <script src="{{asset('frontend/js/multiple-image-video.js')}}"></script>
   <!--sticky sidebar js-->
@@ -100,6 +104,10 @@
   <script src="{{asset('frontend/js/venobox.min.js')}}"></script>
   <!--classycountdown js-->
   <script src="{{asset('frontend/js/jquery.classycountdown.js')}}"></script>
+
+  <script src="//cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+
 
   <!--sweet alert-->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -172,7 +180,7 @@
 
     });
   </script>
-
+@stack('scripts')
 </body>
 
 </html>

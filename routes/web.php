@@ -12,14 +12,16 @@ use App\Http\Controllers\Backend\VendorProfileController;
 use App\Http\Controllers\Backend\VendorShopProfileController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\PaymentController;
-use App\Http\Controllers\Frontend\UserDashboardController;
-use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\UserAddressContoller;
+use App\Http\Controllers\Frontend\UserDashboardController;
+use App\Http\Controllers\Frontend\UserOrderController;
+use App\Http\Controllers\Frontend\UserProfileController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flash-sale');
@@ -85,6 +87,10 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
 
     /**razorpay routes */
     Route::get('razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
+
+    /* User Orders routes */
+    Route::get('orders', [UserOrderController::class , 'index'])->name('orders');
+    Route::get('orders/show/{id}', [UserOrderController::class , 'show'])->name('orders.show');
 
 });
 
