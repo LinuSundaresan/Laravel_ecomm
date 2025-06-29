@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Interfaces\FlashSaleItemRepositoryInterface;
 use App\Interfaces\FlashSaleRepositoryInterface;
+use App\Interfaces\HomepageSettingRepositoryInterface;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
@@ -15,10 +16,12 @@ class HomeController extends Controller
         $sliders = Slider::where('status', 1)->orderBy('serial', 'asc')->get();
         $flashSaleDate = app(FlashSaleRepositoryInterface::class)->getFlashSale();
         $flashSaleHomeItems = app(FlashSaleItemRepositoryInterface::class)->getFlashSaleHomeItems();
+        $popularCategories = app(HomepageSettingRepositoryInterface::class)->getPopularCategories();
         return view('frontend.home.home', compact(
             'sliders' ,
             'flashSaleDate',
-            'flashSaleHomeItems'
+            'flashSaleHomeItems',
+            'popularCategories'
         ));
     }
 }

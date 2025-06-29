@@ -28,11 +28,11 @@
 
 
     <!--============================
-       MONTHLY TOP PRODUCT START
+       POPULAR CATEGORY PRODUCTS
     ==============================-->
     @include('frontend.home.sections.top-category-products')
     <!--============================
-       MONTHLY TOP PRODUCT END
+       POPULAR CATEGORY PRODUCTS ENDS
     ==============================-->
 
 
