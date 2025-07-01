@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\BrandRepositoryInterface;
 use App\Interfaces\FlashSaleItemRepositoryInterface;
 use App\Interfaces\FlashSaleRepositoryInterface;
 use App\Interfaces\HomepageSettingRepositoryInterface;
@@ -17,11 +18,13 @@ class HomeController extends Controller
         $flashSaleDate = app(FlashSaleRepositoryInterface::class)->getFlashSale();
         $flashSaleHomeItems = app(FlashSaleItemRepositoryInterface::class)->getFlashSaleHomeItems();
         $popularCategories = app(HomepageSettingRepositoryInterface::class)->getPopularCategories();
+        $brands = app(BrandRepositoryInterface::class)->getAll();
         return view('frontend.home.home', compact(
             'sliders' ,
             'flashSaleDate',
             'flashSaleHomeItems',
-            'popularCategories'
+            'popularCategories',
+            'brands'
         ));
     }
 }
