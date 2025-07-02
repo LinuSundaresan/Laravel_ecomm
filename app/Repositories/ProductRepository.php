@@ -53,4 +53,9 @@ class ProductRepository implements ProductRepositoryInterface
         $product = Product::find($id);
         $product->update($data);
     }
+
+    public function getTypeBasedProducts(string $type)
+    {
+        return $newArrivals = Product::where(['product_type'=> $type , 'is_approved'=>1, 'status'=>1])->orderBy('id', 'DESC')->take(8)->get();
+    }
 }

@@ -13,4 +13,5 @@ interface ProductRepositoryInterface
     public function delete($id);
     public function updateStatus($data , $id);
     public function updateApproval($data , $id);
+    public function getTypeBasedProducts(string $type);
 }
